@@ -1,33 +1,26 @@
-<template>
-  <Calendar />
-
-  <DatePicker v-model="date" />
-</template>
-
-<script>
-import { Calendar, DatePicker } from "v-calendar";
+<script setup>
+import { RouterView } from "vue-router";
+import { onMounted } from "vue";
 import { getPosts } from "@/api/getPosts";
 
-export default {
-  components: {
-    Calendar,
-    DatePicker,
-  },
-  data() {
-    return {
-      date: new Date(),
-    };
-  },
-  async mounted() {
-    console.log("env", process.env.VUE_APP_BASE_URL);
-    try {
-      const res = await getPosts();
-      console.log("response", res);
-    } catch (err) {
-      console.log("error", err);
-    }
-  },
-};
+onMounted(async () => {
+  try {
+    const response = await getPosts();
+    console.log("response", response);
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
-<style></style>
+<template>
+  <!-- <nav>
+    <RouterLink to="/">Список</RouterLink>
+    <RouterLink to="/create">Создать</RouterLink>
+  </nav> -->
+  <RouterView />
+</template>
+
+<style>
+/* @import "@/assets/style/main.scss"; */
+</style>
