@@ -1,0 +1,442 @@
+@import "mixins";
+@import "theme";
+
+html,
+html::after,
+html::before,
+body,
+body::after,
+body::before,
+div,
+div::after,
+div::before,
+span,
+span::after,
+span::before,
+iframe,
+iframe::after,
+iframe::before,
+h1,
+h1::after,
+h1::before,
+h2,
+h2::after,
+h2::before,
+h3,
+h3::after,
+h3::before,
+h4,
+h4::after,
+h4::before,
+h5,
+h5::after,
+h5::before,
+h6,
+h6::after,
+h6::before,
+p,
+p::after,
+p::before,
+blockquote,
+blockquote::after,
+blockquote::before,
+pre,
+pre::after,
+pre::before,
+a,
+a::after,
+a::before,
+abbr,
+abbr::after,
+abbr::before,
+address,
+address::after,
+address::before,
+button,
+button::after,
+button::before,
+cite,
+cite::after,
+cite::before,
+code,
+code::after,
+code::before,
+del,
+del::after,
+del::before,
+dfn,
+dfn::after,
+dfn::before,
+em,
+em::after,
+em::before,
+img,
+img::after,
+img::before,
+ins,
+ins::after,
+ins::before,
+kbd,
+kbd::after,
+kbd::before,
+samp,
+samp::after,
+samp::before,
+small,
+small::after,
+small::before,
+strong,
+strong::after,
+strong::before,
+sub,
+sub::after,
+sub::before,
+sup,
+sup::after,
+sup::before,
+var,
+var::after,
+var::before,
+input,
+input::after,
+input::before,
+dl,
+dl::after,
+dl::before,
+dt,
+dt::after,
+dt::before,
+dd,
+dd::after,
+dd::before,
+fieldset,
+fieldset::after,
+fieldset::before,
+form,
+form::after,
+form::before,
+label,
+label::after,
+label::before,
+legend,
+legend::after,
+legend::before,
+table,
+table::after,
+table::before,
+caption,
+caption::after,
+caption::before,
+tbody,
+tbody::after,
+tbody::before,
+tfoot,
+tfoot::after,
+tfoot::before,
+thead,
+thead::after,
+thead::before,
+tr,
+tr::after,
+tr::before,
+th,
+th::after,
+th::before,
+td,
+td::after,
+td::before,
+article,
+article::after,
+article::before,
+aside,
+aside::after,
+aside::before,
+canvas,
+canvas::after,
+canvas::before,
+details,
+details::after,
+details::before,
+embed,
+embed::after,
+embed::before,
+figure,
+figure::after,
+figure::before,
+figcaption,
+figcaption::after,
+figcaption::before,
+main,
+main::after,
+main::before,
+footer,
+footer::after,
+footer::before,
+header,
+header::after,
+header::before,
+ul::after,
+ul,
+::before,
+ol,
+ol::after,
+ol::before,
+nav,
+nav::after,
+nav::before,
+section,
+section::after,
+section::before,
+summary,
+summary::after,
+summary::before,
+time,
+time::after,
+time::before,
+audio,
+audio::after,
+audio::before,
+textarea,
+textarea::after,
+textarea::before,
+video,
+video::after,
+video::before {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+address,
+button,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+input,
+dl,
+dt,
+dd,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+main,
+footer,
+header,
+nav,
+section,
+summary,
+time,
+audio,
+textarea,
+video {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  vertical-align: baseline;
+  background: none;
+}
+
+a.nuxt-link-exact-active {
+  color: $active-link;
+}
+
+label:focus-within,
+input[type="submit"]:focus-visible,
+input[type="reset"]:focus-visible,
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible,
+input[type="range"]:focus-visible,
+input[type="image"]:focus-visible,
+input[type="file"]:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid $blue;
+  outline-offset: 3px;
+}
+
+.details .summary {
+  list-style: none;
+  cursor: pointer;
+
+  &::marker,
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.ol,
+.ul {
+  list-style: none;
+  padding: none;
+  margin: none;
+}
+
+.blockquote,
+.q {
+  quotes: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: white;
+  color: $base-color;
+  font: $font-base;
+  overflow-x: hidden;
+
+  &.noscroll {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  padding: 0;
+}
+
+.block-with-shadow {
+  border-radius: 10px;
+  box-shadow: 0 0 15px 20px $shadow-color;
+  background-color: $shadow-color;
+}
+
+.green-text {
+  color: $green-dark;
+}
+
+.simple-btn {
+  width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  font-feature-settings: "ss04" on;
+  border-radius: 16px;
+  padding: 15px 25px;
+  border: 1px solid $green;
+  color: $green;
+  background-color: white;
+  transition: all 0.1s;
+
+  &:focus {
+    border-color: $green-dark;
+    color: $green-dark;
+  }
+
+  &:active {
+    background-color: $green-dark;
+    color: white;
+  }
+
+  &:disabled,
+  &:disabled:active {
+    background-color: white;
+    color: $green;
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  &_main {
+    color: white;
+    background-color: $green;
+
+    &:not(:disabled):hover {
+      background-color: $green-light;
+
+      &:active {
+        background-color: $green-dark;
+      }
+    }
+
+    &:focus {
+      background-color: $green-dark;
+      border-color: $green-dark;
+      color: white;
+
+      &:active {
+        background-color: $green-light;
+        color: white;
+      }
+    }
+  }
+
+  &_margin-bottom {
+    margin-bottom: 15px;
+  }
+}
+
+@keyframes appearing {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,113 @@
+// fonts
+$font: "Aeroport", sans-serif;
+$heading-font: "Aeroport", sans-serif;
+$font-size-tabs: 13px;
+$font-size-base: 16px;
+$font-lh-base: 20px;
+$font-base: #{$font-size-base} / #{$font-lh-base} $font;
+
+// Heading fonts
+$h1-font-size: 36px;
+$h1-line-height: 40px;
+$h1-font-weight: bold;
+$h1-letter-spacing: -0.01em;
+$h1-font: $h1-font-weight #{$h1-font-size} / #{$h1-line-height} $font;
+
+$h2-font-size: 24px;
+$h2-line-height: 32px;
+$h2-font-weight: bold;
+$h2-letter-spacing: -0.01em;
+$h2-font: $h2-font-weight #{$h2-font-size} / #{$h2-line-height} $heading-font;
+
+$h36-font-size: 20px;
+$h36-line-height: 28px;
+$h36-font-weight: 500;
+$h36-letter-spacing: -0.01em;
+$h36-font: $h36-font-weight #{$h36-font-size} / #{$h36-line-height}
+  $heading-font;
+
+$base-font-size: 24px;
+$base-line-height: 32px;
+$base-font-weight: 400;
+$base-letter-spacing: -0.01em;
+$base-font: $base-font-weight #{$base-font-size} / #{$base-line-height} $font;
+
+$bold-accent-font-size: $base-font-size;
+$bold-accent-line-height: $base-line-height;
+$bold-accent-font-weight: bold;
+$bold-accent-letter-spacing: $base-letter-spacing;
+$bold-accent-font: $bold-accent-font-weight #{$bold-accent-font-size} / #{$bold-accent-line-height}
+  $font;
+
+$accent-font-size: $base-font-size;
+$accent-line-height: $base-line-height;
+$accent-font-weight: $base-font-weight;
+$accent-font-style: italic;
+$accent-letter-spacing: $base-letter-spacing;
+$accent-font: $accent-font-style $accent-font-weight #{$accent-font-size} / #{$accent-line-height}
+  $font;
+
+// colors
+$base-color: #11152c;
+$base-light: rgba(17, 21, 44, 0.3);
+$black: #000;
+$black-light: #707070;
+$black-smooth: #2f4858;
+$white: #fff;
+$shadow-color: #fafafa;
+
+// color gray
+$gray: #f8f8f8;
+$gray2: #e7e9f1;
+$gray3: #edeff3;
+$gray4: #f2f2f2;
+$gray-light: #f5f6fa;
+$gray-light2: #f4f5fa;
+$gray-light3: #11152c1a;
+$gray-dark: #b8b9c0;
+$gray-dark2: #a0a0a0;
+$gray-dark-deep: #11152c2e;
+$gray-button: #909a95;
+
+// color green
+$green: #22b871;
+$green2: #22ba72;
+$green3: #0e9454;
+$green-dark: #25a669;
+$green-dark-deep: #269661;
+$green-light: #4ec88e;
+$green-bg: #e7f7ef;
+
+// color blue
+$blue: #4361ee;
+$blue-dark: #2e4cd9;
+$blue-deep-dark: #2240ce;
+$blue-bg: #e5eaff;
+$blue-1: #e6eaf2;
+
+// color orange
+$orange: #fa9c57;
+$orange-dark: #ec8b44;
+$orange-deep-dark: #d77c39;
+$orange-bg: #fef4ed;
+
+// color red
+$red: #ff3e49;
+$red-light: #fc515a;
+$red-dark: #f8646c;
+$red-deep-dark: #e03943;
+$red-bg: #ffe2e4;
+
+// color text
+$color-text-primary: #12162e;
+$color-text-secondary: #b8b9c0;
+$color-text-secondary-contrast: #888a96;
+
+// color border
+$color-border: #d4d5d9;
+
+// time animation
+$transition-duration: 0.25s !default;
+
+// UI colors
+$active-link: $green;
