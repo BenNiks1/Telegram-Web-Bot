@@ -10,7 +10,9 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "v-calendar": "^3.0.0-alpha.8",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-inline-svg": "^3.1.2",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -21,7 +23,8 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "sass": "^1.58.0",
-    "sass-loader": "^13.2.0"
+    "sass-loader": "^13.2.0",
+    "vuex": "^4.0.2"
   },
   "eslintConfig": {
     "root": true,

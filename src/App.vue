@@ -1,33 +1,30 @@
 <template>
-  <Calendar />
-
-  <DatePicker v-model="date" />
+  <TheHeader />
+  <main class="main">
+    <RouterView />
+  </main>
 </template>
 
-<script>
-import { Calendar, DatePicker } from "v-calendar";
+<script setup>
+import { RouterView } from "vue-router";
+import { onMounted } from "vue";
 import { getPosts } from "@/api/getPosts";
+import TheHeader from "@/layout/TheHeader.vue";
 
-export default {
-  components: {
-    Calendar,
-    DatePicker,
-  },
-  data() {
-    return {
-      date: new Date(),
-    };
-  },
-  async mounted() {
-    console.log("env", process.env.VUE_APP_BASE_URL);
-    try {
-      const res = await getPosts();
-      console.log("response", res);
-    } catch (err) {
-      console.log("error", err);
-    }
-  },
-};
+onMounted(async () => {
+  try {
+    const response = await getPosts();
+    console.log("response", response);
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
-<style></style>
+<style lang="scss">
+.main {
+  margin: 0 auto;
+  padding: 20px;
+  height: calc(100vh - 54px);
+}
+</style>
