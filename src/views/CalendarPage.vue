@@ -8,6 +8,7 @@
         is-expanded
         title-position="right"
         locale="ru"
+        :disabled-dates="store.getters.getBusyDates"
       />
 
       <UiButton
@@ -25,7 +26,7 @@
 <script setup>
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiButton from "@/components/UiButton.vue";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -40,6 +41,10 @@ const breadcrumbs = ref([
 
 watch(date, (value) => {
   console.log("date", value);
+});
+
+onMounted(async () => {
+  await store.dispatch('fetchDates');
 });
 
 const nextStep = () => {
