@@ -3,10 +3,12 @@ import pocketbase from "@/helpers/pocketbase";
 
 export default createStore({
   state: {
-    date: "",
+    date: new Date(),
     service: {},
     services: [],
     busyDates: [],
+    name: '',
+    phone: '',
     hasApplied: false, // Чтобы потом перейти на страницу успеха
   },
   mutations: {
@@ -24,6 +26,12 @@ export default createStore({
     },
     SET_USER_SERVICE(state, service) {
       state.service = service;
+    },
+    SET_USER_NAME(state, name) {
+      state.name = name;
+    },
+    SET_USER_PHONE(state, phone) {
+      state.phone = phone;
     }
   },
   getters:{
@@ -38,6 +46,35 @@ export default createStore({
     },
     getUserService(state) {
       return state.service.id;
+    },
+    getUserData(state) {
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+        timeZone: "Europe/Moscow",
+      };
+      const date = new Intl.DateTimeFormat('en-US', options).format(state.date)
+      return {
+        name: state.name,
+        phone: state.phone,
+        service: state.service.name,
+        date,
+      };
+    },
+    getUserDataForServer(state) {
+      return {
+        name: state.name,
+        tel: state.phone,
+        service: state.service.id,
+        date: state.date,
+      };
+    },
+    getApplicationState(state) {
+      return state.hasApplied;
     }
   },
   actions: {

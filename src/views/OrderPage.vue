@@ -68,7 +68,7 @@ import { useRouter } from "vue-router";
 const store = useStore();
 const router = useRouter();
 
-const checked = ref({});
+const checked = ref(null);
 const phone = ref(null);
 const name = ref(null);
 const breadcrumbs = ref([
@@ -86,21 +86,16 @@ watch(checked, (value) => {
   );
 });
 
-const userData = computed(() => ({
-  name: name.value,
-  tel: phone.value,
-  service: store.getters.getUserService,
-  date: store.getters.getUserDate,
-}));
-
 const isDisabled = computed(() => {
-  return !checked.value || !phone.value || !name.value;
+  // TODO: Кнопка не раздисейблится пока фокус не уйдёт с последнего инпута
+  // Нельзя нажать на кнопку сразу после заполнения данных
+  return !phone.value || !name.value || !checked.value;
 });
 
 const submit = () => {
-  store.dispatch("applyUser", userData.value);
+  store.commit('SET_USER_NAME', name.value);
+  store.commit('SET_USER_PHONE', phone.value);
   router.push("/checkout");
-  console.log(store.state.hasApplied);
 };
 
 onMounted(async () => {
