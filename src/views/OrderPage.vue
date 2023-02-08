@@ -12,13 +12,13 @@
             class="form__radio-buttons-inner"
           >
             <input
-              :id="button.value"
+              :id="button.id"
               type="radio"
-              :name="button.value"
-              :value="button.value"
+              :name="button.id"
+              :value="button.id"
               v-model="checked"
             />
-            <label :for="button.value"> {{ button.name }} </label>
+            <label :for="button.id"> {{ button.name }} </label>
           </div>
         </div>
       </div>
@@ -61,12 +61,12 @@
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiButton from "@/components/UiButton.vue";
 import UiInput from "@/components/UiInput.vue";
+import { ref, watch, computed, onMounted } from "vue";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { ref, watch, computed } from "vue";
-// import { useStore } from "vuex";
 
+const store = useStore();
 const router = useRouter();
-// const store = useStore();
 
 const checked = ref(null);
 const phone = ref(null);
@@ -76,31 +76,33 @@ const breadcrumbs = ref([
   { link: "/calendar", name: "Выбор даты" },
   { link: "/create", name: "Заказ" },
 ]);
-const radioButtons = ref([
-  { value: "elevator", name: "Подъемник" },
-  { value: "washing", name: "Мойка" },
-  { value: "oil", name: "Замена масла" },
-]);
+
+let radioButtons = ref([]);
 
 watch(checked, (value) => {
-  console.log("asdasdasd", value);
-});
-
-const formData = computed(() => {
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("phone_number", phone);
-  return formData;
+  store.commit(
+    "SET_USER_SERVICE",
+    radioButtons.value.find((item) => item.id === value)
+  );
 });
 
 const isDisabled = computed(() => {
-  return !checked.value || !phone.value || !name.value;
+  // TODO: Кнопка не раздисейблится пока фокус не уйдёт с последнего инпута
+  // Нельзя нажать на кнопку сразу после заполнения данных
+  return !phone.value || !name.value || !checked.value;
 });
 
 const submit = () => {
+  store.commit('SET_USER_NAME', name.value);
+  store.commit('SET_USER_PHONE', phone.value);
   router.push("/checkout");
-  console.log("formData", formData);
 };
+
+onMounted(async () => {
+  store.dispatch("fetchServices").then(() => {
+    radioButtons.value = store.getters.getServices;
+  });
+});
 </script>
 
 <style lang="scss">
