@@ -4,11 +4,16 @@
     <div class="calendar__inner">
       <DatePicker
         v-model="date"
-        mode="date"
+        mode="dateTime"
         is-expanded
         title-position="right"
         locale="ru"
         :disabled-dates="store.getters.getBusyDates"
+        :valid-hours="
+          (hour, { weekday }) =>
+            ![1, 7].includes(weekday) || (hour >= 8 && hour <= 12)
+        "
+        is24hr
       />
 
       <UiButton
@@ -44,7 +49,7 @@ watch(date, (value) => {
 });
 
 onMounted(async () => {
-  await store.dispatch('fetchDates');
+  await store.dispatch("fetchDates");
 });
 
 const nextStep = () => {
@@ -62,6 +67,7 @@ const nextStep = () => {
   &__inner {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
+    max-height: 550px;
   }
 
   &__button {

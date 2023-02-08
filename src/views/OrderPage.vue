@@ -47,9 +47,9 @@
       </div>
 
       <div class="form__submit">
-        <UiButton type="primary" :disabled="!checked">Подтвердить</UiButton>
+        <UiButton type="primary" :disabled="isDisabled">Продолжить</UiButton>
         <p class="form__submit-description">
-          Нажимая на кнопку "Подтвердить" вы даете согалсие на обработку
+          Нажимая на кнопку "Продолжить" вы даете согалсие на обработку
           персональных данных
         </p>
       </div>
@@ -63,11 +63,14 @@ import UiButton from "@/components/UiButton.vue";
 import UiInput from "@/components/UiInput.vue";
 import { ref, watch, computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
+
 const checked = ref({});
 const phone = ref(null);
-const name = ref("");
+const name = ref(null);
 const breadcrumbs = ref([
   { link: "/", name: "Главная" },
   { link: "/calendar", name: "Выбор даты" },
@@ -77,7 +80,10 @@ const breadcrumbs = ref([
 let radioButtons = ref([]);
 
 watch(checked, (value) => {
-  store.commit('SET_USER_SERVICE', radioButtons.value.find((item) => item.id === value));
+  store.commit(
+    "SET_USER_SERVICE",
+    radioButtons.value.find((item) => item.id === value)
+  );
 });
 
 const userData = computed(() => ({
@@ -87,16 +93,21 @@ const userData = computed(() => ({
   date: store.getters.getUserDate,
 }));
 
+const isDisabled = computed(() => {
+  return !checked.value || !phone.value || !name.value;
+});
+
 const submit = () => {
-  store.dispatch('applyUser', userData.value);
+  store.dispatch("applyUser", userData.value);
+  router.push("/checkout");
   console.log(store.state.hasApplied);
 };
 
-onMounted(async() => {
-  store.dispatch('fetchServices').then(() => {
+onMounted(async () => {
+  store.dispatch("fetchServices").then(() => {
     radioButtons.value = store.getters.getServices;
   });
-})
+});
 </script>
 
 <style lang="scss">
@@ -104,9 +115,8 @@ onMounted(async() => {
   & .form {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
-    // gap: 20px;
-    // height: 100%;
-
+    max-height: 550px;
+    height: 100%;
     &__title {
       font-size: 16px;
       line-height: 24px;
@@ -117,6 +127,7 @@ onMounted(async() => {
       display: flex;
       flex-direction: column;
       gap: 15px;
+      margin-bottom: 20px;
     }
 
     &__user-data {
@@ -131,6 +142,7 @@ onMounted(async() => {
       gap: 10px;
       position: relative;
       width: 100%;
+
       z-index: 10;
 
       &-inner {
