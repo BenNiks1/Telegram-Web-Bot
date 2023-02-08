@@ -1,4 +1,4 @@
-const request = async (url, params = {}, method = "GET", data) => {
+export const request = async (url, params = {}, method = "GET", data) => {
   let options = {
     method,
   };
@@ -13,4 +13,3 @@ const request = async (url, params = {}, method = "GET", data) => {
 
   return await fetch(url, options).then((res) => res.json());
 };
-export default request;

@@ -18,7 +18,7 @@ const router = createRouter({
     {
       path: "/create",
       name: "create",
-      component: () => import("@/views/CreateDate.vue"),
+      component: () => import("@/views/OrderPage.vue"),
       props: (route) => ({
         ...route.params,
         id: parseInt(route.params.id),

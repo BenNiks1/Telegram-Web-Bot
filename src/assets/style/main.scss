@@ -1,5 +1,6 @@
 @import "./mixins.scss";
 @import "./theme.scss";
+@import "./fonts.scss";
 
 html,
 html::after,
@@ -329,11 +330,13 @@ button {
 }
 
 html {
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 
 body {
   background-color: white;
+  font-family: $font;
   color: $base-color;
   font: $font-base;
   overflow-x: hidden;
@@ -352,10 +355,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-.main {
-  padding: 0;
 }
 
 .block-with-shadow {

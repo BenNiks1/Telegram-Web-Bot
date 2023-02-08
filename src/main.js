@@ -5,6 +5,7 @@ import store from "./store";
 import { SetupCalendar, Calendar, DatePicker } from "v-calendar";
 
 import "v-calendar/dist/style.css";
+// import "./assets/style/main.scss";
 
 const app = createApp(App);
 app.use(router);

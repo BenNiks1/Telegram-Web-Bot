@@ -1,7 +1,15 @@
+<template>
+  <TheHeader />
+  <main class="main">
+    <RouterView />
+  </main>
+</template>
+
 <script setup>
 import { RouterView } from "vue-router";
 import { onMounted } from "vue";
 import { getPosts } from "@/api/getPosts";
+import TheHeader from "@/layout/TheHeader.vue";
 
 onMounted(async () => {
   try {
@@ -13,14 +21,10 @@ onMounted(async () => {
 });
 </script>
 
-<template>
-  <!-- <nav>
-    <RouterLink to="/">Список</RouterLink>
-    <RouterLink to="/create">Создать</RouterLink>
-  </nav> -->
-  <RouterView />
-</template>
-
-<style>
-/* @import "@/assets/style/main.scss"; */
+<style lang="scss">
+.main {
+  margin: 0 auto;
+  padding: 20px;
+  height: calc(100vh - 54px);
+}
 </style>
