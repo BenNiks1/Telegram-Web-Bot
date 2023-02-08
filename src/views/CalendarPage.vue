@@ -4,10 +4,15 @@
     <div class="calendar__inner">
       <DatePicker
         v-model="date"
-        mode="date"
+        mode="dateTime"
         is-expanded
         title-position="right"
         locale="ru"
+        :valid-hours="
+          (hour, { weekday }) =>
+            ![1, 7].includes(weekday) || (hour >= 8 && hour <= 12)
+        "
+        is24hr
       />
 
       <UiButton
@@ -57,6 +62,7 @@ const nextStep = () => {
   &__inner {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
+    max-height: 550px;
   }
 
   &__button {

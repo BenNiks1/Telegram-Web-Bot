@@ -33,6 +33,15 @@ const router = createRouter({
         id: parseInt(route.params.id),
       }),
     },
+    {
+      path: "/success",
+      name: "success",
+      component: () => import("@/views/SuccessPage.vue"),
+      props: (route) => ({
+        ...route.params,
+        id: parseInt(route.params.id),
+      }),
+    },
   ],
 });
 

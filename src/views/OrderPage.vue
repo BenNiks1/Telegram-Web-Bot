@@ -47,9 +47,9 @@
       </div>
 
       <div class="form__submit">
-        <UiButton type="primary">Подтвердить</UiButton>
+        <UiButton type="primary" :disabled="isDisabled">Продолжить</UiButton>
         <p class="form__submit-description">
-          Нажимая на кнопку "Подтвердить" вы даете согалсие на обработку
+          Нажимая на кнопку "Продолжить" вы даете согалсие на обработку
           персональных данных
         </p>
       </div>
@@ -61,13 +61,16 @@
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiButton from "@/components/UiButton.vue";
 import UiInput from "@/components/UiInput.vue";
+import { useRouter } from "vue-router";
 import { ref, watch, computed } from "vue";
 // import { useStore } from "vuex";
 
+const router = useRouter();
 // const store = useStore();
-const checked = ref("");
+
+const checked = ref(null);
 const phone = ref(null);
-const name = ref("");
+const name = ref(null);
 const breadcrumbs = ref([
   { link: "/", name: "Главная" },
   { link: "/calendar", name: "Выбор даты" },
@@ -85,12 +88,17 @@ watch(checked, (value) => {
 
 const formData = computed(() => {
   const formData = new FormData();
-  formData.append("name", this.name);
-  formData.append("phone_number", this.tel);
+  formData.append("name", name);
+  formData.append("phone_number", phone);
   return formData;
 });
 
+const isDisabled = computed(() => {
+  return !checked.value || !phone.value || !name.value;
+});
+
 const submit = () => {
+  router.push("/checkout");
   console.log("formData", formData);
 };
 </script>
@@ -100,9 +108,8 @@ const submit = () => {
   & .form {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
-    // gap: 20px;
-    // height: 100%;
-
+    max-height: 550px;
+    height: 100%;
     &__title {
       font-size: 16px;
       line-height: 24px;
@@ -113,6 +120,7 @@ const submit = () => {
       display: flex;
       flex-direction: column;
       gap: 15px;
+      margin-bottom: 20px;
     }
 
     &__user-data {
@@ -127,6 +135,7 @@ const submit = () => {
       gap: 10px;
       position: relative;
       width: 100%;
+
       z-index: 10;
 
       &-inner {
