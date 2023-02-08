@@ -12,13 +12,13 @@
             class="form__radio-buttons-inner"
           >
             <input
-              :id="button.value"
+              :id="button.id"
               type="radio"
-              :name="button.value"
-              :value="button.value"
+              :name="button.id"
+              :value="button.id"
               v-model="checked"
             />
-            <label :for="button.value"> {{ button.name }} </label>
+            <label :for="button.id"> {{ button.name }} </label>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
       </div>
 
       <div class="form__submit">
-        <UiButton type="primary">Подтвердить</UiButton>
+        <UiButton type="primary" :disabled="!checked">Подтвердить</UiButton>
         <p class="form__submit-description">
           Нажимая на кнопку "Подтвердить" вы даете согалсие на обработку
           персональных данных
@@ -61,11 +61,11 @@
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiButton from "@/components/UiButton.vue";
 import UiInput from "@/components/UiInput.vue";
-import { ref, watch, computed } from "vue";
-// import { useStore } from "vuex";
+import { ref, watch, computed, onMounted } from "vue";
+import { useStore } from "vuex";
 
-// const store = useStore();
-const checked = ref("");
+const store = useStore();
+const checked = ref({});
 const phone = ref(null);
 const name = ref("");
 const breadcrumbs = ref([
@@ -73,26 +73,30 @@ const breadcrumbs = ref([
   { link: "/calendar", name: "Выбор даты" },
   { link: "/create", name: "Заказ" },
 ]);
-const radioButtons = ref([
-  { value: "elevator", name: "Подъемник" },
-  { value: "washing", name: "Мойка" },
-  { value: "oil", name: "Замена масла" },
-]);
+
+let radioButtons = ref([]);
 
 watch(checked, (value) => {
-  console.log("asdasdasd", value);
+  store.commit('SET_USER_SERVICE', radioButtons.value.find((item) => item.id === value));
 });
 
-const formData = computed(() => {
-  const formData = new FormData();
-  formData.append("name", this.name);
-  formData.append("phone_number", this.tel);
-  return formData;
-});
+const userData = computed(() => ({
+  name: name.value,
+  tel: phone.value,
+  service: store.getters.getUserService,
+  date: store.getters.getUserDate,
+}));
 
 const submit = () => {
-  console.log("formData", formData);
+  store.dispatch('applyUser', userData.value);
+  console.log(store.state.hasApplied);
 };
+
+onMounted(async() => {
+  store.dispatch('fetchServices').then(() => {
+    radioButtons.value = store.getters.getServices;
+  });
+})
 </script>
 
 <style lang="scss">

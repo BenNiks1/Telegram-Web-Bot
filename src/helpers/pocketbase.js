@@ -35,6 +35,19 @@ class DataBase {
 			return [];
 		}
 	}
+
+	createRecord = async (userData) => {
+		if(typeof userData === 'object' && Object.keys(userData).length) {
+			try {
+				const result = await pb.collection('records').create(userData);
+				return result;
+			} catch (error) {
+				throw new Error('Can\'t create new record');
+			}
+		} else {
+			throw new Error('userData was not provided properly');
+		}
+	}
 }
 
 export default new DataBase();
