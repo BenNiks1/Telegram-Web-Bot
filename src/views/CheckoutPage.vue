@@ -8,22 +8,22 @@
         <dl class="check">
           <div class="check-wrapper">
             <dt>Дата и время</dt>
-            <dd class="check-data">12.12.2023 17:00</dd>
+            <dd class="check-data">{{ userData.date }}</dd>
           </div>
 
           <div class="check-wrapper">
             <dt>Услуга</dt>
-            <dd class="check-data">Замена масла</dd>
+            <dd class="check-data">{{ userData.service }}</dd>
           </div>
 
           <div class="check-wrapper">
             <dt>ФИО</dt>
-            <dd class="check-data">Иванова Анастасия</dd>
+            <dd class="check-data">{{ userData.name }}</dd>
           </div>
 
           <div class="check-wrapper">
             <dt>Телефон</dt>
-            <dd class="check-data">+7 (999) 888 77 66</dd>
+            <dd class="check-data">{{ userData.phone }}</dd>
           </div>
         </dl>
       </div>
@@ -42,10 +42,12 @@
 <script setup>
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiButton from "@/components/UiButton.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const router = useRouter();
+const store = useStore();
 
 const breadcrumbs = ref([
   { link: "/", name: "Главная" },
@@ -54,8 +56,21 @@ const breadcrumbs = ref([
   { link: "/checkout", name: "Чек" },
 ]);
 
+let userData = ref({
+  name: '',
+  phone: '',
+  date:'',
+  service: '',
+});
+
+onMounted(async() => {
+  userData.value = store.getters.getUserData;
+})
+
 const nextPage = () => {
-  router.push("/success");
+  store.dispatch("applyUser", store.getters.getUserDataForServer).finally(() => {
+    if(store.getters.getApplicationState) router.push("/success");
+  });
 };
 </script>
 
