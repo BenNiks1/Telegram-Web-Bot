@@ -12,7 +12,7 @@
     </div>
 
     <div class="introduction__button">
-      <UiButton type="primary" @click="nextPage">Выбрать дату!</UiButton>
+      <UiButton type="primary" @click="nextPage">Выбрать дату</UiButton>
       <p class="introduction__button-description">
         Выберите свободную дату, и укажите какую услугу вы хотите получить.
       </p>
