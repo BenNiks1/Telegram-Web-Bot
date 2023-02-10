@@ -12,8 +12,6 @@
     </div>
 
     <div class="introduction__button">
-      <UiButton type="primary" @click="onClose">закрыть </UiButton>
-
       <UiButton type="primary" @click="nextPage">Выбрать дату!</UiButton>
       <p class="introduction__button-description">
         Выберите свободную дату, и укажите какую услугу вы хотите получить.
@@ -25,15 +23,12 @@
 <script setup>
 import { useRouter } from "vue-router";
 import UiButton from "@/components/UiButton.vue";
-const router = useRouter();
 
+const router = useRouter();
 const ts = window.Telegram.WebApp;
 
-const onClose = () => {
-  ts.close();
-};
-
 const nextPage = () => {
+  ts.expand();
   router.push("/calendar");
 };
 </script>
@@ -70,15 +65,24 @@ const nextPage = () => {
   }
 
   &__button {
+    position: fixed;
+    bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: calc(100vw - 40px);
 
     &-description {
       font-size: 12px;
       color: $gray-dark2;
       text-align: center;
+    }
+  }
+
+  @media screen and (max-height: 360px) {
+    &__button {
+      position: static;
+      width: 100%;
     }
   }
 }

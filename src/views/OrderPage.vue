@@ -93,8 +93,8 @@ const isDisabled = computed(() => {
 });
 
 const submit = () => {
-  store.commit('SET_USER_NAME', name.value);
-  store.commit('SET_USER_PHONE', phone.value);
+  store.commit("SET_USER_NAME", name.value);
+  store.commit("SET_USER_PHONE", phone.value);
   router.push("/checkout");
 };
 
@@ -137,7 +137,6 @@ onMounted(async () => {
       gap: 10px;
       position: relative;
       width: 100%;
-
       z-index: 10;
 
       &-inner {
@@ -149,7 +148,6 @@ onMounted(async () => {
           padding: 10px 14px;
           border-radius: 10px;
           cursor: pointer;
-
           box-shadow: 0 2px 5px 0 rgb(151 165 193 / 20%),
             0 2px 10px 0 rgb(151 165 193 / 20%);
         }
@@ -167,11 +165,25 @@ onMounted(async () => {
     }
 
     &__submit {
+      position: fixed;
+      bottom: 10px;
+      width: calc(100vw - 40px);
+
       margin-top: auto;
       &-description {
         font-size: 12px;
         color: #a0a0a0;
         text-align: center;
+      }
+    }
+
+    @media screen and (max-height: 640px) {
+      display: flex;
+      flex-direction: column;
+
+      &__submit {
+        position: static;
+        width: 100%;
       }
     }
   }
