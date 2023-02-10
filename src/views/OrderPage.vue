@@ -167,6 +167,8 @@ onMounted(async () => {
     &__submit {
       position: fixed;
       bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       width: calc(100vw - 40px);
 
       margin-top: auto;
@@ -184,6 +186,7 @@ onMounted(async () => {
       &__submit {
         position: static;
         width: 100%;
+        transform: none;
       }
     }
   }

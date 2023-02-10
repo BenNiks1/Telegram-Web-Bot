@@ -70,6 +70,8 @@ const nextStep = () => {
   &__button {
     position: fixed;
     bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     width: calc(100vw - 40px);
     height: 42px;
     margin-bottom: 25px;
@@ -84,6 +86,8 @@ const nextStep = () => {
 
     &__button {
       position: static;
+      width: 100%;
+      transform: none;
     }
   }
 }

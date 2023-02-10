@@ -37,7 +37,7 @@ const nextPage = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: var(--tg-viewport-height);
 
   &__header {
     display: flex;
@@ -67,6 +67,8 @@ const nextPage = () => {
   &__button {
     position: fixed;
     bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,6 +85,7 @@ const nextPage = () => {
     &__button {
       position: static;
       width: 100%;
+      transform: none;
     }
   }
 }
