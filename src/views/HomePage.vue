@@ -23,12 +23,16 @@
 <script setup>
 import { useRouter } from "vue-router";
 import UiButton from "@/components/UiButton.vue";
+import { onMounted } from "vue";
 
 const router = useRouter();
 const ts = window.Telegram.WebApp;
 
-const nextPage = () => {
+onMounted(() => {
   ts.expand();
+});
+
+const nextPage = () => {
   router.push("/calendar");
 };
 </script>
@@ -37,7 +41,7 @@ const nextPage = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: var(--tg-viewport-height);
+  height: 100%;
 
   &__header {
     display: flex;
