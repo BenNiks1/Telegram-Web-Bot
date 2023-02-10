@@ -16,12 +16,6 @@
 <script setup>
 import UiButton from "@/components/UiButton.vue";
 import InlineSvg from "vue-inline-svg";
-
-const ts = window.Telegram.WebApp;
-
-const onClose = () => {
-  ts.close();
-};
 </script>
 <style lang="scss" scoped>
 .success {
