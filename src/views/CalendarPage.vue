@@ -61,15 +61,34 @@ const nextStep = () => {
   height: 100%;
 
   &__inner {
+    // position: relative;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     max-height: 550px;
   }
 
   &__button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 40px);
     height: 42px;
     margin-bottom: 25px;
     align-self: end;
+  }
+
+  @media screen and (max-height: 525px) {
+    &__inner {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__button {
+      position: static;
+      width: 100%;
+      transform: none;
+    }
   }
 }
 </style>

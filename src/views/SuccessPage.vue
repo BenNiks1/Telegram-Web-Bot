@@ -8,14 +8,20 @@
       <h1 class="success__title">Поздравляем!</h1>
       <p class="success__description">Вы записались в Сервис FreshAuto!</p>
     </div>
-    <UiButton class="success__button" type="primary"
-      >Вернуться в Telegram</UiButton
-    >
+    <UiButton class="success__button" type="primary" @click="onClose">
+      Вернуться в Telegram
+    </UiButton>
   </section>
 </template>
 <script setup>
 import UiButton from "@/components/UiButton.vue";
 import InlineSvg from "vue-inline-svg";
+
+const ts = window.Telegram.WebApp;
+
+const onClose = () => {
+  ts.close();
+};
 </script>
 <style lang="scss" scoped>
 .success {
@@ -43,9 +49,22 @@ import InlineSvg from "vue-inline-svg";
   }
 
   &__button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 40px);
     height: 42px;
     margin-bottom: 25px;
     align-self: end;
+  }
+
+  @media screen and (max-height: 360px) {
+    &__button {
+      position: static;
+      width: 100%;
+      transform: none;
+    }
   }
 }
 </style>

@@ -23,7 +23,14 @@
 <script setup>
 import { useRouter } from "vue-router";
 import UiButton from "@/components/UiButton.vue";
+import { onMounted } from "vue";
+
 const router = useRouter();
+const ts = window.Telegram.WebApp;
+
+onMounted(() => {
+  ts.expand();
+});
 
 const nextPage = () => {
   router.push("/calendar");
@@ -62,15 +69,27 @@ const nextPage = () => {
   }
 
   &__button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: calc(100vw - 40px);
 
     &-description {
       font-size: 12px;
       color: $gray-dark2;
       text-align: center;
+    }
+  }
+
+  @media screen and (max-height: 360px) {
+    &__button {
+      position: static;
+      width: 100%;
+      transform: none;
     }
   }
 }
