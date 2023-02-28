@@ -51,8 +51,23 @@ const breadcrumbs = ref([routes.main, routes.dc]);
 onMounted(async () => {
   try {
     const { data: res } = await getDCList();
-
-    sortServices(res.data, "city");
+    console.log("res", res);
+    const arr = {
+      data: [
+        {
+          address: null,
+          city: "Москва",
+          external_id: "2f47c82b-14c0-46fb-8fcb-b083aea55708",
+          id: 1,
+          lat: null,
+          lng: null,
+          name: "Fresh Сервис",
+          work_time_end: "21:00",
+          work_time_start: "09:00",
+        },
+      ],
+    };
+    sortServices(arr.data, "city");
   } catch (err) {
     console.error(err);
   }

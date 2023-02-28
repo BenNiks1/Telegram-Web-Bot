@@ -56,7 +56,21 @@ const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
 onMounted(async () => {
   try {
     const { data: res } = await getServicesList();
-    sortServices(res.data, "type");
+    console.log("res", res);
+
+    const arr = {
+      data: [
+        {
+          external_id: "cd68f60b-3020-49f8-9b38-510fb932499b",
+          id: 1,
+          name: "Замена масла ДВС",
+          price: 1000,
+          type: "ТО",
+        },
+      ],
+    };
+
+    sortServices(arr.data, "type");
   } catch (err) {
     console.error(err);
   }
