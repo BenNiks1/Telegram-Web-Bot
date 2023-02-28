@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getServicesList } from "@/api";
+// import { getServicesList } from "@/api";
 import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiAccordion from "@/components/UiAccordion/UiAccordion.vue";
 import AccordionItem from "@/components/UiAccordion/AccordionItem.vue";
@@ -55,8 +55,7 @@ const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
 
 onMounted(async () => {
   try {
-    const { data: res } = await getServicesList();
-    console.log("res", res);
+    // const { data: res } = await getServicesList();
 
     const arr = {
       data: [
