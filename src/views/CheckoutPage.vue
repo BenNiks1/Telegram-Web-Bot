@@ -57,20 +57,21 @@ const breadcrumbs = ref([
 ]);
 
 let userData = ref({
-  name: '',
-  phone: '',
-  date:'',
-  service: '',
+  name: "",
+  phone: "",
+  date: "",
+  service: "",
 });
 
-onMounted(async() => {
+onMounted(async () => {
   userData.value = store.getters.getUserData;
-})
+});
 
 const nextPage = () => {
-  store.dispatch("applyUser", store.getters.getUserDataForServer).finally(() => {
-    if(store.getters.getApplicationState) router.push("/success");
-  });
+  router.push("/success");
+  // store.dispatch("applyUser", store.getters.getUserDataForServer).finally(() => {
+  //   if(store.getters.getApplicationState) router.push("/success");
+  // });
 };
 </script>
 

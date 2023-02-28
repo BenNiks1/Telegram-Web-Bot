@@ -24,15 +24,15 @@
             </h3>
           </template>
           <template #accordion-content>
-            <RouterLink
+            <div
               v-for="service in services"
               :key="service.id"
-              :to="routes.calendar.path"
+              @click="nextPage"
               class="services-accordion__content"
             >
               <b> {{ service.name }}</b>
               <p><b>Цена:</b> {{ formatNums(service.price) || "9999" }}</p>
-            </RouterLink>
+            </div>
           </template>
         </AccordionItem>
       </UiAccordion>
@@ -47,11 +47,16 @@ import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
 import UiAccordion from "@/components/UiAccordion/UiAccordion.vue";
 import AccordionItem from "@/components/UiAccordion/AccordionItem.vue";
 import { routes, numWord, formatNums } from "@/helpers";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const services = ref({});
 const showServices = ref(false);
 const numWords = ref(["услуга", "услуги", "услуг"]);
 const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
+
+const router = useRouter();
+const store = useStore();
 
 onMounted(async () => {
   try {
@@ -82,6 +87,11 @@ const sortServices = (list, sortBy) => {
       services.value[item[sortBy]] = [...services.value[item[sortBy]], item];
     } else services.value[item[sortBy]] = [item];
   });
+};
+
+const nextPage = () => {
+  store.commit("SET_USER_SERVICE", "Замена масла ДВС");
+  router.push(routes.calendar.path);
 };
 </script>
 <style lang="scss" scoped>
