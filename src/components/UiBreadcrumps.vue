@@ -1,14 +1,18 @@
 <template>
-  <nav class="breadcrumbs">
+  <nav class="breadcrumbs" ref="nav">
     <div
       v-for="(item, key) in items"
       :key="'beadcrumb-item-' + key"
       class="breadcrumbs__item"
     >
-      <RouterLink v-if="item.link" :to="item.link" class="breadcrumbs__link">
+      <RouterLink v-if="item.path" :to="item.path" class="breadcrumbs__link">
         {{ item.name }}
       </RouterLink>
-      <span v-else class="breadcrumbs__link breadcrumbs__link_default">
+      <span
+        v-else
+        class="breadcrumbs__link default"
+        @click="$emit('onClick', item.name)"
+      >
         {{ item.name }}
       </span>
     </div>
@@ -16,8 +20,10 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits, ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
+
+const nav = ref(null);
 
 defineProps({
   items: {
@@ -26,6 +32,12 @@ defineProps({
     default: () => [],
   },
 });
+
+defineEmits(["onClick"]);
+
+onMounted(() => {
+  nav.value.scrollLeft = nav.value.offsetWidth;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -33,6 +45,11 @@ defineProps({
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__item {
     position: relative;
@@ -62,11 +79,11 @@ defineProps({
     color: rgba($base-color, 0.3);
     transition: color $transition-duration;
 
-    &:hover:not(&_default) {
+    &:hover:not(&.default) {
       color: rgba($base-color, 1);
     }
 
-    &_default {
+    &.default {
       cursor: default;
     }
   }

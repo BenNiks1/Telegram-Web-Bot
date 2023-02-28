@@ -7,9 +7,10 @@ export default createStore({
     service: {},
     services: [],
     busyDates: [],
-    name: '',
-    phone: '',
+    name: "",
+    phone: "",
     hasApplied: false, // Чтобы потом перейти на страницу успеха
+    city: "",
   },
   mutations: {
     SET_DATE(state, date) {
@@ -32,9 +33,12 @@ export default createStore({
     },
     SET_USER_PHONE(state, phone) {
       state.phone = phone;
-    }
+    },
+    SET_CITY(state, city) {
+      state.city = city;
+    },
   },
-  getters:{
+  getters: {
     getBusyDates(state) {
       return state.busyDates;
     },
@@ -57,7 +61,7 @@ export default createStore({
         hour12: false,
         timeZone: "Europe/Moscow",
       };
-      const date = new Intl.DateTimeFormat('en-US', options).format(state.date)
+      const date = new Intl.DateTimeFormat("en-US", options).format(state.date);
       return {
         name: state.name,
         phone: state.phone,
@@ -75,29 +79,32 @@ export default createStore({
     },
     getApplicationState(state) {
       return state.hasApplied;
-    }
+    },
+    getCurrentCity(state) {
+      return state.city;
+    },
   },
   actions: {
     async fetchDates({ commit }) {
       const busyDates = await pocketbase.getBusyDates();
-      commit('STORE_DATES', busyDates);
+      commit("STORE_DATES", busyDates);
     },
 
     async applyUser({ commit }, userData) {
       // TODO: Убрать когда подтянем данные из Телеги
-      if(!userData?.chatId) userData.chatId = 111111;
+      if (!userData?.chatId) userData.chatId = 111111;
 
       try {
         await pocketbase.createRecord(userData);
-        commit('CHANGE_APPLICATION_STATE', true);
+        commit("CHANGE_APPLICATION_STATE", true);
       } catch (error) {
-        commit('CHANGE_APPLICATION_STATE', false);
+        commit("CHANGE_APPLICATION_STATE", false);
       }
     },
 
-    async fetchServices({commit}) {
+    async fetchServices({ commit }) {
       const services = await pocketbase.getServices();
-      commit('STORE_SERVICES', services);
-    }
-  }
+      commit("STORE_SERVICES", services);
+    },
+  },
 });

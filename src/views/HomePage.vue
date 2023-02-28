@@ -2,20 +2,17 @@
   <section class="introduction">
     <div class="introduction__header">
       <h1 class="introduction__title">
-        Добро пожаловать в
-        <span class="introduction__title-additional">Сервис FreshAuto</span>
+        Добро пожаловать во
+        <span class="introduction__title-additional">Fresh Сервис</span>
       </h1>
       <p class="introduction__description">
-        Сервис FreshAuto это современное оборудование для диагностики авто, и
-        специалисты со стажем от 3х лет в авто-слесарных науках.
+        Теперь вы можете записаться онлайн на любую услугу, выбрать время и
+        мастера самостоятельно.
       </p>
     </div>
 
     <div class="introduction__button">
-      <UiButton type="primary" @click="nextPage">Выбрать дату</UiButton>
-      <p class="introduction__button-description">
-        Выберите свободную дату, и укажите какую услугу вы хотите получить.
-      </p>
+      <UiButton type="primary" @click="nextPage">Записаться онлайн</UiButton>
     </div>
   </section>
 </template>
@@ -24,16 +21,20 @@
 import { useRouter } from "vue-router";
 import UiButton from "@/components/UiButton.vue";
 import { onMounted } from "vue";
+import { useStore } from "vuex";
+import { routes } from "@/helpers";
 
 const router = useRouter();
+const store = useStore();
 const ts = window.Telegram.WebApp;
 
-onMounted(() => {
+onMounted(async () => {
   ts.expand();
+  store.commit("SET_CITY", "");
 });
 
 const nextPage = () => {
-  router.push("/calendar");
+  router.push(routes.dc.path);
 };
 </script>
 <style lang="scss" scoped>
@@ -77,12 +78,7 @@ const nextPage = () => {
     flex-direction: column;
     align-items: center;
     width: calc(100vw - 40px);
-
-    &-description {
-      font-size: 12px;
-      color: $gray-dark2;
-      text-align: center;
-    }
+    margin-bottom: 25px;
   }
 
   @media screen and (max-height: 360px) {

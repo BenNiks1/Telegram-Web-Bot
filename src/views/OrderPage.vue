@@ -4,26 +4,6 @@
 
     <form class="form" @submit.prevent="submit">
       <div class="form__section">
-        <h2 class="form__title">Выберите услугу</h2>
-        <div class="form__radio-buttons">
-          <div
-            v-for="(button, key) in radioButtons"
-            :key="'radio-btn-group' + key"
-            class="form__radio-buttons-inner"
-          >
-            <input
-              :id="button.id"
-              type="radio"
-              :name="button.id"
-              :value="button.id"
-              v-model="checked"
-            />
-            <label :for="button.id"> {{ button.name }} </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="form__section">
         <h2 class="form__title">Заполните данные</h2>
         <div class="form__user-data">
           <UiInput
@@ -73,6 +53,8 @@ const phone = ref(null);
 const name = ref(null);
 const breadcrumbs = ref([
   { link: "/", name: "Главная" },
+  { link: "/services", name: "Выбор города" },
+  { link: "/services", name: "Выбор центра" },
   { link: "/calendar", name: "Выбор даты" },
   { link: "/create", name: "Заказ" },
 ]);
@@ -89,7 +71,7 @@ watch(checked, (value) => {
 const isDisabled = computed(() => {
   // TODO: Кнопка не раздисейблится пока фокус не уйдёт с последнего инпута
   // Нельзя нажать на кнопку сразу после заполнения данных
-  return !phone.value || !name.value || !checked.value;
+  return !phone.value || !name.value;
 });
 
 const submit = () => {

@@ -1,15 +1,25 @@
-export const request = async (url, params = {}, method = "GET", data) => {
-  let options = {
-    method,
-  };
-  url =
-    process.env.VUE_APP_BASE_URL +
-    url +
-    "?" +
-    new URLSearchParams(params).toString();
-  if ("POST" === method.toLocaleUpperCase()) {
-    options.body = JSON.stringify(data);
-  }
+import axios from "axios";
 
-  return await fetch(url, options).then((res) => res.json());
-};
+const instance = axios.create();
+
+// Добавление хедеров перед запросом
+
+instance.interceptors.request.use(
+  (config) => {
+    config.headers["Accept"] = "application/json";
+    config.headers["Content-Type"] = "application/json";
+
+    return config;
+  },
+  (error) => {
+    console.error("Error on request, ", error);
+    return Promise.reject(error);
+  }
+);
+
+const serviceDecorator = (config) =>
+  instance({ ...config, url: process.env.VUE_APP_POSTFIX_URL + config.url })
+    .then((res) => res)
+    .catch((error) => console.error(error));
+
+export default serviceDecorator;

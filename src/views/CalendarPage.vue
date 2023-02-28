@@ -34,14 +34,17 @@ import UiButton from "@/components/UiButton.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { routes } from "@/helpers/constance";
 
 const router = useRouter();
 const store = useStore();
 
 const date = ref(null);
 const breadcrumbs = ref([
-  { link: "/", name: "Главная" },
-  { link: "/calendar", name: "Выбор даты" },
+  routes.main,
+  routes.dc,
+  routes.services,
+  routes.calendar,
 ]);
 
 onMounted(async () => {
@@ -61,7 +64,6 @@ const nextStep = () => {
   height: 100%;
 
   &__inner {
-    // position: relative;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     max-height: 550px;

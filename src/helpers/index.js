@@ -1,1 +1,3 @@
-export { request } from "./request";
+export * from "./constance";
+export * from "./numWord";
+export * from "./formatNums";

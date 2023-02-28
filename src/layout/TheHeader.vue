@@ -80,9 +80,5 @@ import { RouterLink } from "vue-router";
       display: block;
     }
   }
-
-  // &__logo {
-
-  // }
 }
 </style>
