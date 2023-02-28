@@ -18,7 +18,7 @@ instance.interceptors.request.use(
 );
 
 const serviceDecorator = (config) =>
-  instance({ ...config, url: process.env.VUE_APP_POSTFIX_URL + config.url })
+  instance(config)
     .then((res) => res)
     .catch((error) => console.error(error));
 

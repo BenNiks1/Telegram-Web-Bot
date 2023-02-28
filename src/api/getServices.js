@@ -1,6 +1,7 @@
 import request from "@/helpers/request";
 
-export const getDCList = (params) => request({ url: "/dealers", params });
+export const getDCList = (params) =>
+  request({ url: "/api/widget/dealers", params });
 
 export const getServicesList = (params) =>
-  request({ url: "/services", params });
+  request({ url: "/api/widget/services", params });
