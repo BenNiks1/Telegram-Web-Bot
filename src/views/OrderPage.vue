@@ -184,6 +184,8 @@ const isEmpty = (data) => {
 
 <style lang="scss">
 .order {
+  overflow-y: scroll;
+
   & .form {
     display: grid;
     grid-template-rows: 1fr minmax(100px, max-content);
