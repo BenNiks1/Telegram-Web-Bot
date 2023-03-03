@@ -1977,7 +1977,7 @@ async@^2.6.4:
 
 asynckit@^0.4.0:
   version "0.4.0"
-  resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
+  resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
 at-least-node@^1.0.0:
@@ -1998,9 +1998,9 @@ autoprefixer@^10.2.4:
     postcss-value-parser "^4.2.0"
 
 axios@^1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.3.tgz#e7011384ba839b885007c9c9fae1ff23dceb295b"
-  integrity sha512-eYq77dYIFS77AQlhzEL937yUBSepBfPIe8FcgEDN35vMNZKMrs81pgnyrQpwfy4NF4b4XWX1Zgx7yX+25w8QJA==
+  version "1.3.4"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.3.4.tgz"
+  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -2374,7 +2374,7 @@ colorette@^2.0.10:
 
 combined-stream@^1.0.8:
   version "1.0.8"
-  resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f"
+  resolved "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz"
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
@@ -2723,7 +2723,7 @@ define-properties@^1.1.4:
 
 delayed-stream@~1.0.0:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
+  resolved "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
 
 depd@2.0.0:
@@ -2927,6 +2927,11 @@ escape-string-regexp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
+
+eslint-config-prettier@^8.6.0:
+  version "8.6.0"
+  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.6.0.tgz"
+  integrity sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==
 
 eslint-plugin-vue@^8.0.3:
   version "8.7.1"
@@ -3308,7 +3313,7 @@ follow-redirects@^1.0.0, follow-redirects@^1.15.0:
 
 form-data@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  resolved "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz"
   integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
@@ -4628,11 +4633,6 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
-pocketbase@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/pocketbase/-/pocketbase-0.10.1.tgz#01963c61544b1bcd8db7d3e9d43d4a99dd76f630"
-  integrity sha512-FMBhF+9o2AmdKJYbfz2qunnk4Q5/efYMRcukdQF49UfhsIuaSYl39fSPN1l880bYI4XAvDDeySAjK1MlxrK37A==
-
 portfinder@^1.0.26:
   version "1.0.32"
   resolved "https://registry.npmjs.org/portfinder/-/portfinder-1.0.32.tgz"
@@ -4911,7 +4911,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-"prettier@^1.18.2 || ^2.0.0":
+"prettier@^1.18.2 || ^2.0.0", prettier@^2.6.2:
   version "2.8.3"
   resolved "https://registry.npmjs.org/prettier/-/prettier-2.8.3.tgz"
   integrity sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==
@@ -4953,7 +4953,7 @@ proxy-addr@~2.0.7:
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  resolved "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 pseudomap@^1.0.2:
@@ -5915,6 +5915,13 @@ vue-router@4:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
+vue-star-rating@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/vue-star-rating/-/vue-star-rating-2.1.0.tgz"
+  integrity sha512-LnhuQPi4hkRg7egKls+iqtL1U0RTN2gQkdLsJN7acyynMsSc9epHLzk8McJS+bR0OzfG98zNFq7mxAyuSb/okQ==
+  dependencies:
+    vue "^3.0.0"
+
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   version "4.1.3"
   resolved "https://registry.npmjs.org/vue-style-loader/-/vue-style-loader-4.1.3.tgz"
@@ -5928,7 +5935,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^3.2.13:
+vue@^3.0.0, vue@^3.2.13:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==

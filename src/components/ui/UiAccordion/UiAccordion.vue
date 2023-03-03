@@ -5,13 +5,13 @@
 </template>
 
 <script setup>
-import { ref, provide } from "vue";
+import { ref, provide } from 'vue';
 
 const count = ref(0);
 const active = ref(null);
 
-provide("count", count);
-provide("active", active);
+provide('count', count);
+provide('active', active);
 </script>
 
 <style lang="scss" scoped>

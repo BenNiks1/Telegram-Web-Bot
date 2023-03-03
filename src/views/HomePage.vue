@@ -6,31 +6,28 @@
         <span class="introduction__title-additional">Fresh Сервис</span>
       </h1>
       <p class="introduction__description">
-        Теперь вы можете записаться онлайн на любую услугу, выбрать время и
-        мастера самостоятельно.
+        Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
+        самостоятельно.
       </p>
     </div>
 
     <div class="introduction__button">
-      <UiButton type="primary" @click="nextPage">Записаться онлайн</UiButton>
+      <UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import UiButton from "@/components/UiButton.vue";
-import { onMounted } from "vue";
-import { useStore } from "vuex";
-import { routes } from "@/helpers";
+import { useRouter } from 'vue-router';
+import { UiButton } from '@/components';
+import { onMounted } from 'vue';
+import { routes } from '@/helpers';
 
 const router = useRouter();
-const store = useStore();
 const ts = window.Telegram.WebApp;
 
 onMounted(async () => {
   ts.expand();
-  store.commit("SET_CITY", "");
 });
 
 const nextPage = () => {

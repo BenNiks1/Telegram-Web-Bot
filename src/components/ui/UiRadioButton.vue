@@ -33,11 +33,11 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from "vue";
+import { defineProps, computed } from 'vue';
 
 const props = defineProps({
-  label: { type: String, default: "", required: true },
-  modelValue: { default: "" },
+  label: { type: String, default: '', required: true },
+  modelValue: { type: String, default: '' },
   value: { type: String, default: undefined },
 });
 
@@ -61,16 +61,15 @@ const isChecked = computed(() => props.modelValue == props.value);
       transition: box-shadow 400ms ease;
 
       &:hover {
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-          0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
       }
     }
 
-    input[type="radio"] {
+    input[type='radio'] {
       display: none;
     }
 
-    input[type="radio"]:checked + label {
+    input[type='radio']:checked + label {
       background: #2196f3;
       color: #fff;
       border-color: #2196f3;

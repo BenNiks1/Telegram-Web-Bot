@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-multiple-template-root -->
 <template>
   <TheHeader />
   <main class="main">
@@ -6,8 +7,8 @@
 </template>
 
 <script setup>
-import { RouterView } from "vue-router";
-import TheHeader from "@/layout/TheHeader.vue";
+import { RouterView } from 'vue-router';
+import TheHeader from '@/layout/TheHeader.vue';
 </script>
 
 <style lang="scss">

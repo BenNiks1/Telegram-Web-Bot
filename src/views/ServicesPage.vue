@@ -2,9 +2,9 @@
   <section class="services">
     <UiBreadcrumps :items="breadcrumbs" />
     <div class="services__inner">
-      <h1 class="services__title">Выберите услугу:</h1>
+      <h1 class="title">{{ title }}</h1>
 
-      <ul class="type-list" v-if="!showServices">
+      <ul v-if="!showServices" class="type-list">
         <li class="type-list__item" @click="showServices = true">
           Обслуживание и ремонт автомобиля
         </li>
@@ -14,84 +14,113 @@
 
       <UiAccordion v-if="showServices">
         <AccordionItem
-          v-for="([type, services], index) in Object.entries(services)"
+          v-for="([type, services], index) in Object.entries(formatedServices)"
           :key="index"
           class="services-accordion"
         >
           <template #accordion-trigger>
             <h3 class="services-accordion__title">
-              {{ type }} <span>{{ numWord(services.length, numWords) }}</span>
+              {{ type }}
+              <span>{{ numWord(services.length, numWords) }}</span>
             </h3>
           </template>
           <template #accordion-content>
             <div
               v-for="service in services"
               :key="service.id"
-              @click="nextPage"
               class="services-accordion__content"
             >
-              <b> {{ service.name }}</b>
-              <p><b>Цена:</b> {{ formatNums(service.price) || "9999" }}</p>
+              <UiCheckbox
+                v-model:checked="serviceIds"
+                :value="serviceIds"
+                :field-id="service.id"
+              >
+                <b>{{ service.name }}</b>
+                <p>
+                  <b>Цена:</b>
+                  {{ formatNums(service.price) }}
+                </p>
+              </UiCheckbox>
             </div>
           </template>
         </AccordionItem>
       </UiAccordion>
+
+      <div v-if="showServices" class="services__button">
+        <UiButton style-type="primary" :disabled="!serviceIds?.length" @click="nextPage">
+          Продолжить
+        </UiButton>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-// import { getServicesList } from "@/api";
-import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
-import UiAccordion from "@/components/UiAccordion/UiAccordion.vue";
-import AccordionItem from "@/components/UiAccordion/AccordionItem.vue";
-import { routes, numWord, formatNums } from "@/helpers";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-
-const services = ref({});
-const showServices = ref(false);
-const numWords = ref(["услуга", "услуги", "услуг"]);
-const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
+import { ref, computed, onMounted, watch } from 'vue';
+// import { getServicesList } from '@/api';
+import {
+  UiBreadcrumps,
+  UiAccordion,
+  AccordionItem,
+  UiCheckbox,
+  UiButton,
+} from '@/components';
+import { routes, numWord, formatNums } from '@/helpers';
+import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import SERVICES_MOCK from '@/mock/services.json';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
+
+const serviceIds = ref([]);
+const formatedServices = ref({});
+const servicesList = ref([]);
+const showServices = ref(false);
+const numWords = ref(['услуга', 'услуги', 'услуг']);
+const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
+
+const title = computed(() =>
+  showServices.value ? 'Выберите услугу' : 'Что вас интересует?'
+);
 
 onMounted(async () => {
   try {
     // const { data: res } = await getServicesList();
-
-    const arr = {
-      data: [
-        {
-          external_id: "cd68f60b-3020-49f8-9b38-510fb932499b",
-          id: 1,
-          name: "Замена масла ДВС",
-          price: 1000,
-          type: "ТО",
-        },
-      ],
-    };
-
-    sortServices(arr.data, "type");
+    servicesList.value = SERVICES_MOCK;
+    sortServices(SERVICES_MOCK, 'type');
   } catch (err) {
     console.error(err);
   }
 });
 
+watch(serviceIds, (value) => {
+  console.log('serviceIds', value);
+});
+
 // Вынести отдельно
 const sortServices = (list, sortBy) => {
   list.forEach((item) => {
-    if (services.value?.[item[sortBy]]?.length) {
-      services.value[item[sortBy]] = [...services.value[item[sortBy]], item];
-    } else services.value[item[sortBy]] = [item];
+    if (formatedServices.value?.[item[sortBy]]?.length) {
+      formatedServices.value[item[sortBy]] = [
+        ...formatedServices.value[item[sortBy]],
+        item,
+      ];
+    } else formatedServices.value[item[sortBy]] = [item];
   });
 };
 
 const nextPage = () => {
-  store.commit("SET_USER_SERVICE", "Замена масла ДВС");
-  router.push(routes.calendar.path);
+  store.commit(
+    'STORE_SERVICES',
+    servicesList.value.filter((service) => serviceIds.value.includes(service.id))
+  );
+
+  router.push({
+    path: routes.calendar.path,
+    query: { ...route.query, services: serviceIds.value },
+  });
 };
 </script>
 <style lang="scss" scoped>
@@ -135,10 +164,24 @@ const nextPage = () => {
       }
     }
   }
+
+  &__button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 40px);
+    height: 42px;
+    margin-bottom: 25px;
+  }
+
   &-accordion {
+    max-height: 350px;
+    overflow-y: scroll;
+
     &__content {
       display: block;
-      margin-left: 20px;
+      margin: 0 0 10px 20px;
       padding: 0 0 10px 20px;
       border-bottom: 1px solid $color-border;
     }

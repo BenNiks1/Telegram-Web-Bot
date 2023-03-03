@@ -1,6 +1,6 @@
 // fonts
-$font: "Aeroport", sans-serif;
-$heading-font: "Aeroport", sans-serif;
+$font: 'Aeroport', sans-serif;
+$heading-font: 'Aeroport', sans-serif;
 $font-size-tabs: 13px;
 $font-size-base: 16px;
 $font-lh-base: 20px;
@@ -23,8 +23,7 @@ $h36-font-size: 20px;
 $h36-line-height: 28px;
 $h36-font-weight: 500;
 $h36-letter-spacing: -0.01em;
-$h36-font: $h36-font-weight #{$h36-font-size} / #{$h36-line-height}
-  $heading-font;
+$h36-font: $h36-font-weight #{$h36-font-size} / #{$h36-line-height} $heading-font;
 
 $base-font-size: 24px;
 $base-line-height: 32px;
