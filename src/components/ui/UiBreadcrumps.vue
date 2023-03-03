@@ -1,27 +1,27 @@
 <template>
-  <nav class="breadcrumbs" ref="nav">
+  <nav ref="nav" class="breadcrumbs">
     <div
       v-for="(item, key) in items"
       :key="'beadcrumb-item-' + key"
       class="breadcrumbs__item"
     >
-      <RouterLink v-if="item.path" :to="item.path" class="breadcrumbs__link">
-        {{ item.name }}
-      </RouterLink>
       <span
-        v-else
+        v-if="key === items.length - 1"
         class="breadcrumbs__link default"
         @click="$emit('onClick', item.name)"
       >
         {{ item.name }}
       </span>
+      <RouterLink v-else :to="item.path" class="breadcrumbs__link">
+        {{ item.name }}
+      </RouterLink>
     </div>
   </nav>
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
 
 const nav = ref(null);
 
@@ -33,7 +33,7 @@ defineProps({
   },
 });
 
-defineEmits(["onClick"]);
+defineEmits(['onClick']);
 
 onMounted(() => {
   nav.value.scrollLeft = nav.value.offsetWidth;
@@ -70,7 +70,7 @@ onMounted(() => {
 
     &:not(:last-child) {
       &::after {
-        content: "";
+        content: '';
       }
     }
   }

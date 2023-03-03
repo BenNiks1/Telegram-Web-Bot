@@ -1,16 +1,15 @@
-import { createStore } from "vuex";
-import pocketbase from "@/helpers/pocketbase";
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
     date: new Date(),
-    service: {},
+    serviceCenter: {},
     services: [],
-    busyDates: [],
-    name: "",
-    phone: "",
+    dc: {},
+    master: {},
+    name: '',
+    phone: '',
     hasApplied: false, // Чтобы потом перейти на страницу успеха
-    city: "",
   },
   mutations: {
     SET_DATE(state, date) {
@@ -25,17 +24,20 @@ export default createStore({
     STORE_SERVICES(state, services) {
       state.services = services;
     },
-    SET_USER_SERVICE(state, service) {
-      state.service = service;
+    SET_DC(state, dc) {
+      state.dc = dc;
+    },
+    SET_MASTER(state, master) {
+      state.master = master;
+    },
+    SET_SERVICE_CENTER(state, serviceCenter) {
+      state.serviceCenter = serviceCenter;
     },
     SET_USER_NAME(state, name) {
       state.name = name;
     },
     SET_USER_PHONE(state, phone) {
       state.phone = phone;
-    },
-    SET_CITY(state, city) {
-      state.city = city;
     },
   },
   getters: {
@@ -48,20 +50,26 @@ export default createStore({
     getServices(state) {
       return state.services;
     },
-    getUserService(state) {
-      return state.service.id;
+    getDC(state) {
+      return state.dc;
+    },
+    getMaster(state) {
+      return state.master;
+    },
+    getServiceCenter(state) {
+      return state.serviceCenter;
     },
     getUserData(state) {
       const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
         hour12: false,
-        timeZone: "Europe/Moscow",
+        timeZone: 'Europe/Moscow',
       };
-      const date = new Intl.DateTimeFormat("en-US", options).format(state.date);
+      const date = new Intl.DateTimeFormat('en-US', options).format(state.date);
       return {
         name: state.name,
         phone: state.phone,
@@ -80,31 +88,25 @@ export default createStore({
     getApplicationState(state) {
       return state.hasApplied;
     },
-    getCurrentCity(state) {
-      return state.city;
-    },
   },
   actions: {
-    async fetchDates({ commit }) {
-      const busyDates = await pocketbase.getBusyDates();
-      commit("STORE_DATES", busyDates);
-    },
-
-    async applyUser({ commit }, userData) {
-      // TODO: Убрать когда подтянем данные из Телеги
-      if (!userData?.chatId) userData.chatId = 111111;
-
-      try {
-        await pocketbase.createRecord(userData);
-        commit("CHANGE_APPLICATION_STATE", true);
-      } catch (error) {
-        commit("CHANGE_APPLICATION_STATE", false);
-      }
-    },
-
-    async fetchServices({ commit }) {
-      const services = await pocketbase.getServices();
-      commit("STORE_SERVICES", services);
-    },
+    // async fetchDates({ commit }) {
+    //   const busyDates = await pocketbase.getBusyDates();
+    //   commit('STORE_DATES', busyDates);
+    // },
+    // async applyUser({ commit }, userData) {
+    //   // TODO: Убрать когда подтянем данные из Телеги
+    //   if (!userData?.chatId) userData.chatId = 111111;
+    //   try {
+    //     await pocketbase.createRecord(userData);
+    //     commit('CHANGE_APPLICATION_STATE', true);
+    //   } catch (error) {
+    //     commit('CHANGE_APPLICATION_STATE', false);
+    //   }
+    // },
+    // async fetchServices({ commit }) {
+    //   const services = await pocketbase.getServices();
+    //   commit('STORE_SERVICES', services);
+    // },
   },
 });

@@ -1,6 +1,6 @@
-@import "./mixins.scss";
-@import "./theme.scss";
-@import "./fonts.scss";
+@import './mixins.scss';
+@import './theme.scss';
+@import './fonts.scss';
 
 html,
 html::after,
@@ -285,13 +285,13 @@ a.nuxt-link-exact-active {
 }
 
 label:focus-within,
-input[type="submit"]:focus-visible,
-input[type="reset"]:focus-visible,
-input[type="radio"]:focus-visible,
-input[type="checkbox"]:focus-visible,
-input[type="range"]:focus-visible,
-input[type="image"]:focus-visible,
-input[type="file"]:focus-visible,
+input[type='submit']:focus-visible,
+input[type='reset']:focus-visible,
+input[type='radio']:focus-visible,
+input[type='checkbox']:focus-visible,
+input[type='range']:focus-visible,
+input[type='image']:focus-visible,
+input[type='file']:focus-visible,
 button:focus-visible,
 a:focus-visible {
   outline: 2px solid $blue;
@@ -375,7 +375,7 @@ a:hover {
   line-height: 20px;
   text-align: center;
   letter-spacing: -0.01em;
-  font-feature-settings: "ss04" on;
+  font-feature-settings: 'ss04' on;
   border-radius: 16px;
   padding: 15px 25px;
   border: 1px solid $green;
@@ -428,6 +428,13 @@ a:hover {
   &_margin-bottom {
     margin-bottom: 15px;
   }
+}
+
+.title {
+  margin: 10px 0 20px;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
 }
 
 @keyframes appearing {

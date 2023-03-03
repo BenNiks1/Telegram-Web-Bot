@@ -2,22 +2,20 @@
   <section class="calendar">
     <UiBreadcrumps :items="breadcrumbs" />
     <div class="calendar__inner">
+      <h1 class="title">Выберите дату и время:</h1>
+
       <DatePicker
         v-model="date"
-        mode="dateTime"
+        mode="date"
+        :available-dates="availableDates"
         is-expanded
         title-position="right"
         locale="ru"
-        :disabled-dates="store.getters.getBusyDates"
-        :valid-hours="
-          (hour, { weekday }) =>
-            ![1, 7].includes(weekday) || (hour >= 8 && hour <= 12)
-        "
-        is24hr
       />
+      <!-- @update:fromPage="onChange" -->
 
       <UiButton
-        type="primary"
+        style-type="primary"
         class="calendar__button"
         :disabled="!date"
         @click="nextStep"
@@ -29,33 +27,56 @@
 </template>
 
 <script setup>
-import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
-import UiButton from "@/components/UiButton.vue";
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { routes } from "@/helpers/constance";
+import { UiBreadcrumps, UiButton } from '@/components';
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { routes, formatDate } from '@/helpers';
+import { getDates } from '@/api';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 
 const date = ref(null);
-const breadcrumbs = ref([
-  routes.main,
-  routes.dc,
-  routes.services,
-  routes.calendar,
-]);
+const availableDates = ref([]);
+const breadcrumbs = ref([routes.main, routes.dc, routes.services, routes.calendar]);
 
-onMounted(async () => {
-  await store.dispatch("fetchDates");
-});
+const getAvailableDates = async (params) => {
+  try {
+    const { data: res } = await getDates(params);
+    availableDates.value = res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const onChange = (e) => {
+  const params = {
+    dealer_id: route.query.dealer_id,
+    month: `${e.year}-${getMonth(e.month)}`,
+  };
+
+  getAvailableDates(params);
+};
+
+const getMonth = (month) => {
+  return month < 10 ? '0' + month : month;
+};
 
 const nextStep = () => {
-  store.commit("SET_DATE", date);
+  store.commit('SET_DATE', date.value);
 
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    locales: 'fr-ca',
+  };
   router.push({
-    name: "create",
+    path: routes.slots.path,
+    query: { ...route.query, date: formatDate(date.value, options) },
   });
 };
 </script>
@@ -64,9 +85,16 @@ const nextStep = () => {
   height: 100%;
 
   &__inner {
-    display: grid;
-    grid-template-rows: repeat(2, 1fr);
-    max-height: 550px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    margin: 10px 0;
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 500;
+    height: 100%;
   }
 
   &__button {

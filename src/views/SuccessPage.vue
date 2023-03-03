@@ -5,17 +5,19 @@
         class="success-icon"
         :src="require('@/assets/static/svg/diagnostics.svg')"
       />
-      <h1 class="success__title">Поздравляем!</h1>
-      <p class="success__description">Вы записались в Сервис FreshAuto!</p>
+      <h1 class="success__title">Ваша заявка отправлена!</h1>
+      <p class="success__description">
+        Сейчас мы все проверим, а после пришлем вам подтверждение записи в СМС.
+      </p>
     </div>
-    <UiButton class="success__button" type="primary" @click="onClose">
-      Вернуться в Telegram
+    <UiButton class="success__button" style-type="primary" @click="onClose">
+      Отлично
     </UiButton>
   </section>
 </template>
 <script setup>
-import UiButton from "@/components/UiButton.vue";
-import InlineSvg from "vue-inline-svg";
+import { UiButton } from '@/components';
+import InlineSvg from 'vue-inline-svg';
 
 const ts = window.Telegram.WebApp;
 

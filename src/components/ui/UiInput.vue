@@ -1,12 +1,14 @@
 <script>
 export default {
   props: {
-    id: String,
-    label: String,
-    modelValue: String,
-    type: String,
-    placeholder: String,
-    name: String,
+    id: { type: String, default: null },
+    label: { type: String, default: null },
+    modelValue: { type: String, default: null },
+    type: { type: String, default: null },
+    placeholder: { type: String, default: null },
+    name: { type: String, default: null },
+    required: { type: Boolean, default: false },
+    isError: { type: Boolean, default: false },
   },
 };
 </script>
@@ -15,9 +17,10 @@ export default {
   <div class="input">
     <label v-if="label" :for="id" class="input__label">
       {{ label }}
+      <span v-if="required" class="input__required">*</span>
     </label>
     <div class="input__control">
-      <div class="input__slot">
+      <div class="input__slot" :class="{ error: isError }">
         <div class="input__wrap">
           <input
             :id="id"
@@ -54,6 +57,10 @@ export default {
     transition: all $transition-duration;
   }
 
+  &__required {
+    color: $red;
+  }
+
   &__control {
     width: 100%;
   }
@@ -62,6 +69,10 @@ export default {
     border-radius: 16px;
     border: 1px solid $color-border;
     transition: border $transition-duration;
+
+    &.error {
+      border-color: $red;
+    }
 
     &:hover {
       border-color: rgba($green, 0.5);

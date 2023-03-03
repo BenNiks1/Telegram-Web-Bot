@@ -2,32 +2,32 @@
   <section class="dc">
     <UiBreadcrumps :items="breadcrumbs" />
     <div class="dc__inner">
-      <h1 class="dc__title">Выберите сервисный центр:</h1>
+      <h1 class="title">Выберите сервисный центр</h1>
 
       <UiAccordion>
         <AccordionItem
-          v-for="([city, services], index) in Object.entries(services)"
+          v-for="([city, services], index) in Object.entries(serviceList)"
           :key="index"
         >
           <template #accordion-trigger>
             <h3 class="dc-accordion__title">
-              {{ city }}: <span>{{ numWord(services.length, numWords) }}</span>
+              {{ city }}
             </h3>
           </template>
           <template #accordion-content>
-            <RouterLink
+            <div
               v-for="service in services"
               :key="service.id"
-              :to="routes.services.path"
               class="dc-accordion__content"
+              @click="() => nextPage(service)"
             >
               <b>{{ service.city }} - {{ service.name }}</b>
-              <p>Цена: {{ service.address || "-" }}</p>
+              <p>Адрес: {{ service.address || '-' }}</p>
               <p>
                 Часы работы с {{ service.work_time_start }} до
                 {{ service.work_time_end }}
               </p>
-            </RouterLink>
+            </div>
           </template>
         </AccordionItem>
       </UiAccordion>
@@ -36,38 +36,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-// import { getDCList } from "@/api";
-import UiBreadcrumps from "@/components/UiBreadcrumps.vue";
-import UiAccordion from "@/components/UiAccordion/UiAccordion.vue";
-import AccordionItem from "@/components/UiAccordion/AccordionItem.vue";
-import { routes, numWord } from "@/helpers";
-import { RouterLink } from "vue-router";
+import { ref, onMounted } from 'vue';
+// import { getDCList } from '@/api';
+import { UiBreadcrumps, UiAccordion, AccordionItem } from '@/components';
+import { routes } from '@/helpers';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import DC_MOCK from '@/mock/dc.json';
 
-const numWords = ref(["филиал", "филиала", "филиалов"]);
-const services = ref({});
+const serviceList = ref({});
 const breadcrumbs = ref([routes.main, routes.dc]);
+
+const router = useRouter();
+const store = useStore();
 
 onMounted(async () => {
   try {
     // const { data: res } = await getDCList();
-    // console.log("re", res);
-    const arr = {
-      data: [
-        {
-          address: null,
-          city: "Москва",
-          external_id: "2f47c82b-14c0-46fb-8fcb-b083aea55708",
-          id: 1,
-          lat: null,
-          lng: null,
-          name: "Fresh Сервис",
-          work_time_end: "21:00",
-          work_time_start: "09:00",
-        },
-      ],
-    };
-    sortServices(arr.data, "city");
+
+    sortServices(DC_MOCK, 'city');
   } catch (err) {
     console.error(err);
   }
@@ -76,10 +63,16 @@ onMounted(async () => {
 // Вынести отдельно
 const sortServices = (list, sortBy) => {
   list.forEach((item) => {
-    if (services.value?.[item[sortBy]]?.length) {
-      services.value[item[sortBy]] = [...services.value[item[sortBy]], item];
-    } else services.value[item[sortBy]] = [item];
+    if (serviceList.value?.[item[sortBy]]?.length) {
+      serviceList.value[item[sortBy]] = [...serviceList.value[item[sortBy]], item];
+    } else serviceList.value[item[sortBy]] = [item];
   });
+};
+
+const nextPage = (service) => {
+  store.commit('SET_DC', service);
+
+  router.push({ path: routes.services.path, query: { dealer_id: service.id } });
 };
 </script>
 <style lang="scss" scoped>
@@ -96,7 +89,7 @@ const sortServices = (list, sortBy) => {
   &-accordion {
     &__content {
       display: block;
-      margin-left: 20px;
+      margin: 0 0 10px 20px;
       padding: 0 0 10px 20px;
       border-bottom: 1px solid $color-border;
     }

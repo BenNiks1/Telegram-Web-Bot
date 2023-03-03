@@ -1,15 +1,16 @@
 <template>
   <li class="accordion__item">
-    <div
-      class="accordion__trigger"
-      :class="{ accordion__trigger_active: visible }"
-      @click="open"
-    >
+    <div class="accordion__trigger" :class="{ active: visible }" @click="open">
       <slot name="accordion-trigger"></slot>
+
+      <InlineSvg
+        class="accordion__trigger-icon"
+        :src="require('@/assets/static/svg/arrow-down.svg')"
+      />
     </div>
 
     <Transition name="accordion" @enter="setHeight" @after-leave="setHeight">
-      <div class="accordion__content" v-show="visible">
+      <div v-show="visible" class="accordion__content">
         <ul class="accordion__content-list">
           <slot name="accordion-content"></slot>
         </ul>
@@ -19,10 +20,11 @@
 </template>
 
 <script setup>
-import { ref, inject, computed, onMounted } from "vue";
+import { ref, inject, computed, onMounted } from 'vue';
+import InlineSvg from 'vue-inline-svg';
 
-const count = inject("count");
-const active = inject("active");
+const count = inject('count');
+const active = inject('active');
 
 const index = ref(null);
 
@@ -34,7 +36,7 @@ const open = () => {
 };
 
 const setHeight = (el) => {
-  el.style.height = el.scrollHeight + "px";
+  el.style.height = el.scrollHeight + 'px';
 };
 
 onMounted(() => {
@@ -44,6 +46,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .accordion {
+  $root: &;
   &__item {
     position: relative;
     cursor: pointer;
@@ -52,8 +55,19 @@ onMounted(() => {
   &__trigger {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px 20px 10px;
     border-bottom: 1px solid $color-border;
+
+    &-icon {
+      transition: 0.3s;
+    }
+
+    &.active {
+      #{$root}__trigger-icon {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   &__content {

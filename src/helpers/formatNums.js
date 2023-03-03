@@ -8,11 +8,11 @@ export const formatNums = (number, showCurrency = true) => {
 
   if (showCurrency) {
     options = {
-      style: "currency",
-      currency: "RUB",
+      style: 'currency',
+      currency: 'RUB',
       minimumFractionDigits: 0,
     };
   }
 
-  return value.toLocaleString("ru-RU", options);
+  return value.toLocaleString('ru-RU', options);
 };

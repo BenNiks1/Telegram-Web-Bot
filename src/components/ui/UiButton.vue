@@ -23,7 +23,7 @@
 // import UiLoading from "~/components/ui/UiLoading.vue";
 
 export default {
-  name: "UiButton",
+  name: 'UiButton',
 
   components: {
     // UiLoading,
@@ -32,28 +32,33 @@ export default {
   props: {
     size: {
       type: String,
-      default: "md",
+      default: 'md',
       validator: (value) => {
         // Значение должно соответствовать одной из этих строк
-        return ["xs", "sm", "md", "lg"].includes(value);
+        return ['xs', 'sm', 'md', 'lg'].includes(value);
       },
     },
 
     type: {
       type: String,
-      default: "base",
+      default: 'button',
+    },
+
+    styleType: {
+      type: String,
+      default: 'base',
       validator: (value) => {
         // Значение должно соответствовать одной из этих строк
         return [
-          "base",
-          "primary",
-          "secondary",
-          "secondary-grey",
-          "black",
-          "white",
-          "gray",
-          "gray-bg",
-          "icon-sided-text",
+          'base',
+          'primary',
+          'secondary',
+          'secondary-grey',
+          'black',
+          'white',
+          'gray',
+          'gray-bg',
+          'icon-sided-text',
         ].includes(value);
       },
     },
@@ -110,17 +115,17 @@ export default {
         button_icon: this.icon,
         button_shadow: this.shadow,
 
-        "button_icon-left": this.iconLeft,
+        'button_icon-left': this.iconLeft,
 
-        "button_full-width": this.fullWidth,
+        'button_full-width': this.fullWidth,
 
-        "is-readonly": this.readonly || this.loading,
-        "is-disabled": this.disabled,
+        'is-readonly': this.readonly || this.loading,
+        'is-disabled': this.disabled,
       };
       return [
         classes,
         `button_${this.size}`,
-        this.type ? `button_${this.type}` : "",
+        this.styleType ? `button_${this.styleType}` : '',
       ];
     },
 
@@ -129,16 +134,10 @@ export default {
      * @type {string}
      */
     componentTag() {
-      const hasTo = "to" in this.$attrs;
-      const hasHref = "href" in this.$attrs;
+      const hasTo = 'to' in this.$attrs;
+      const hasHref = 'href' in this.$attrs;
 
-      return this.tag
-        ? this.tag
-        : hasTo
-        ? "nuxt-link"
-        : hasHref
-        ? "a"
-        : "button";
+      return this.tag ? this.tag : hasTo ? 'nuxt-link' : hasHref ? 'a' : 'button';
     },
   },
 };

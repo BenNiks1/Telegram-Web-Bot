@@ -3,41 +3,22 @@
     <div class="header__circle-left" />
     <div class="header__circle-right" />
 
-    <div />
-    <RouterLink to="/"
-      ><InlineSvg
-        class="header__logo"
-        :src="require('@/assets/static/svg/logo.svg')"
-    /></RouterLink>
-
-    <address class="header__contact">
-      <a href="/">
-        <InlineSvg
-          class="header__contact-icon"
-          :src="require('@/assets/static/svg/location.svg')"
-        />
-      </a>
-
-      <a href="/">
-        <InlineSvg
-          class="header__contact-icon"
-          :src="require('@/assets/static/svg/phone.svg')"
-        />
-      </a>
-    </address>
+    <RouterLink to="/">
+      <InlineSvg class="header__logo" :src="require('@/assets/static/svg/logo.svg')" />
+    </RouterLink>
   </header>
 </template>
 
 <script setup>
-import InlineSvg from "vue-inline-svg";
-import { RouterLink } from "vue-router";
+import InlineSvg from 'vue-inline-svg';
+import { RouterLink } from 'vue-router';
 </script>
 
 <style lang="scss" scoped>
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
   padding: 15px;
   background-color: $white;
@@ -68,7 +49,7 @@ import { RouterLink } from "vue-router";
   }
 
   &__logo {
-    margin-left: 52px;
+    margin-top: 5px;
   }
 
   &__contact {
