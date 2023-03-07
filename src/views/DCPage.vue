@@ -1,6 +1,6 @@
 <template>
   <section class="dc">
-    <UiBreadcrumps :items="breadcrumbs" />
+    <UiBreadcrumbs :items="breadcrumbs" />
     <div class="dc__inner">
       <h1 class="title">Выберите сервисный центр</h1>
 
@@ -37,12 +37,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-// import { getDCList } from '@/api';
-import { UiBreadcrumps, UiAccordion, AccordionItem } from '@/components';
+import { getDCList } from '@/api';
+import { UiBreadcrumbs, UiAccordion, AccordionItem } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import DC_MOCK from '@/mock/dc.json';
 
 const serviceList = ref({});
 const breadcrumbs = ref([routes.main, routes.dc]);
@@ -52,9 +51,9 @@ const store = useStore();
 
 onMounted(async () => {
   try {
-    // const { data: res } = await getDCList();
+    const { data: res } = await getDCList();
 
-    sortServices(DC_MOCK, 'city');
+    sortServices(res.data, 'city');
   } catch (err) {
     console.error(err);
   }
@@ -89,7 +88,7 @@ const nextPage = (service) => {
   &-accordion {
     &__content {
       display: block;
-      margin: 0 0 10px 20px;
+      margin-left: 20px;
       padding: 0 0 10px 20px;
       border-bottom: 1px solid $color-border;
     }

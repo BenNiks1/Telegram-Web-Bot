@@ -1,6 +1,6 @@
 <template>
   <section class="services">
-    <UiBreadcrumps :items="breadcrumbs" />
+    <UiBreadcrumbs :items="breadcrumbs" />
     <div class="services__inner">
       <h1 class="title">{{ title }}</h1>
 
@@ -21,7 +21,9 @@
           <template #accordion-trigger>
             <h3 class="services-accordion__title">
               {{ type }}
-              <span>{{ numWord(services.length, numWords) }}</span>
+              <span>
+                {{ `${services.length} ${numWord(services.length, numWords)}` }}
+              </span>
             </h3>
           </template>
           <template #accordion-content>
@@ -56,10 +58,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
-// import { getServicesList } from '@/api';
+import { ref, computed, onMounted } from 'vue';
+import { getServicesList } from '@/api';
 import {
-  UiBreadcrumps,
+  UiBreadcrumbs,
   UiAccordion,
   AccordionItem,
   UiCheckbox,
@@ -68,7 +70,6 @@ import {
 import { routes, numWord, formatNums } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import SERVICES_MOCK from '@/mock/services.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -87,16 +88,12 @@ const title = computed(() =>
 
 onMounted(async () => {
   try {
-    // const { data: res } = await getServicesList();
-    servicesList.value = SERVICES_MOCK;
-    sortServices(SERVICES_MOCK, 'type');
+    const { data: res } = await getServicesList();
+    servicesList.value = res.data;
+    sortServices(res.data, 'type');
   } catch (err) {
     console.error(err);
   }
-});
-
-watch(serviceIds, (value) => {
-  console.log('serviceIds', value);
 });
 
 // Вынести отдельно
@@ -176,12 +173,9 @@ const nextPage = () => {
   }
 
   &-accordion {
-    max-height: 350px;
-    overflow-y: scroll;
-
     &__content {
       display: block;
-      margin: 0 0 10px 20px;
+      margin-left: 20px;
       padding: 0 0 10px 20px;
       border-bottom: 1px solid $color-border;
     }

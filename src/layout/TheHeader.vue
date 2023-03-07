@@ -9,7 +9,7 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import InlineSvg from 'vue-inline-svg';
 import { RouterLink } from 'vue-router';
 </script>

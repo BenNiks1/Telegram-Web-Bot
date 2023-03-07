@@ -19,21 +19,15 @@
   </component>
 </template>
 
-<script>
-// import UiLoading from "~/components/ui/UiLoading.vue";
-
+<script lang="ts">
 export default {
   name: 'UiButton',
-
-  components: {
-    // UiLoading,
-  },
 
   props: {
     size: {
       type: String,
       default: 'md',
-      validator: (value) => {
+      validator: (value: string) => {
         // Значение должно соответствовать одной из этих строк
         return ['xs', 'sm', 'md', 'lg'].includes(value);
       },
@@ -47,7 +41,7 @@ export default {
     styleType: {
       type: String,
       default: 'base',
-      validator: (value) => {
+      validator: (value: string) => {
         // Значение должно соответствовать одной из этих строк
         return [
           'base',

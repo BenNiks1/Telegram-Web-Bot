@@ -1,6 +1,6 @@
 <template>
   <section class="calendar">
-    <UiBreadcrumps :items="breadcrumbs" />
+    <UiBreadcrumbs :items="breadcrumbs" />
     <div class="calendar__inner">
       <h1 class="title">Выберите дату и время:</h1>
 
@@ -11,8 +11,8 @@
         is-expanded
         title-position="right"
         locale="ru"
+        @update:fromPage="onChange"
       />
-      <!-- @update:fromPage="onChange" -->
 
       <UiButton
         style-type="primary"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { UiBreadcrumps, UiButton } from '@/components';
+import { UiBreadcrumbs, UiButton } from '@/components';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -51,7 +51,6 @@ const getAvailableDates = async (params) => {
   }
 };
 
-// eslint-disable-next-line no-unused-vars
 const onChange = (e) => {
   const params = {
     dealer_id: route.query.dealer_id,

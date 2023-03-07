@@ -1,6 +1,6 @@
 <template>
   <section class="order">
-    <UiBreadcrumps :items="breadcrumbs" />
+    <UiBreadcrumbs :items="breadcrumbs" />
 
     <form class="form" @submit.prevent="submit">
       <div class="form__section">
@@ -106,11 +106,11 @@
 </template>
 
 <script setup>
-import { UiBreadcrumps, UiButton, UiInput, CheckoutCard } from '@/components';
+import { UiBreadcrumbs, UiButton, UiInput, CheckoutCard } from '@/components';
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { routes } from '@/helpers';
-// import { postOrder } from '@/api';
+import { postOrder } from '@/api';
 
 const router = useRouter();
 const route = useRoute();
@@ -167,8 +167,7 @@ const submit = async () => {
   };
 
   try {
-    // await postOrder(data);
-    console.log(data);
+    await postOrder(data);
     router.push(routes.success.path);
   } catch (error) {
     console.error(error);
@@ -184,8 +183,6 @@ const isEmpty = (data) => {
 
 <style lang="scss">
 .order {
-  overflow-y: scroll;
-
   & .form {
     display: grid;
     grid-template-rows: 1fr minmax(100px, max-content);

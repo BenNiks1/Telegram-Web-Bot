@@ -3,6 +3,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
 
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '^/api': {
         target: process.env.VUE_APP_BASE_URL,

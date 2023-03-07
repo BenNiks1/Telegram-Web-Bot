@@ -1,6 +1,6 @@
 <template>
   <section class="slots">
-    <UiBreadcrumps :items="breadcrumbs" />
+    <UiBreadcrumbs :items="breadcrumbs" />
     <div class="slots__inner">
       <h1 class="title">Выбрать мастера</h1>
       <RouterLink
@@ -27,12 +27,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-// import { getSlotsList } from '@/api';
-import { UiBreadcrumps, ProfileCard } from '@/components';
+import { getSlotsList } from '@/api';
+import { UiBreadcrumbs, ProfileCard } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter, useRoute, RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
-import SLOTS_MOCK from '@/mock/slots.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -48,12 +47,11 @@ const breadcrumbs = ref([
 ]);
 
 onMounted(async () => {
-  // const { date, dealer_id } = route.query;
+  const { date, dealer_id } = route.query;
 
   try {
-    // const { data: res } = await getSlotsList({ date, dealer_id });
-    // slots.value = res.data;
-    slots.value = SLOTS_MOCK;
+    const { data: res } = await getSlotsList({ date, dealer_id });
+    slots.value = res.data;
   } catch (err) {
     console.error(err);
   }

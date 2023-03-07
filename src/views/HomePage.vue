@@ -17,14 +17,15 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { UiButton } from '@/components';
 import { onMounted } from 'vue';
 import { routes } from '@/helpers';
 
 const router = useRouter();
-const ts = window.Telegram.WebApp;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ts = (window as any).Telegram.WebApp;
 
 onMounted(async () => {
   ts.expand();
@@ -34,6 +35,7 @@ const nextPage = () => {
   router.push(routes.dc.path);
 };
 </script>
+
 <style lang="scss" scoped>
 .introduction {
   display: flex;
