@@ -8,7 +8,17 @@
 
 <script setup>
 import { RouterView } from 'vue-router';
+import { onMounted } from 'vue';
 import TheHeader from '@/layout/TheHeader.vue';
+
+const ts = window?.Telegram?.WebApp;
+
+onMounted(async () => {
+	if (ts) {
+		ts.expand();
+		ts.isClosingConfirmationEnabled = true;
+	}
+});
 </script>
 
 <style lang="scss">

@@ -20,15 +20,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { UiButton } from '@/components';
-import { onMounted } from 'vue';
 import { routes } from '@/helpers';
 
 const router = useRouter();
-const ts = window?.Telegram?.WebApp;
-
-onMounted(async () => {
-  if(ts) ts.expand();
-});
 
 const nextPage = () => {
 	router.push(routes.dc.path);
