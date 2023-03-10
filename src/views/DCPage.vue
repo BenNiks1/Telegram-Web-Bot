@@ -42,6 +42,7 @@ import { UiBreadcrumbs, UiAccordion, AccordionItem } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import DC from '@/mock/dc.json';
 
 const serviceList = ref({});
 const breadcrumbs = ref([routes.main, routes.dc]);
@@ -51,9 +52,9 @@ const store = useStore();
 
 onMounted(async () => {
 	try {
-		const { data: res } = await getDCList();
+		// const { data: res } = await getDCList();
 
-		sortServices(res.data, 'city');
+		sortServices(DC, 'city');
 	} catch (err) {
 		console.error(err);
 	}

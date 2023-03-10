@@ -32,6 +32,7 @@ import { UiBreadcrumbs, ProfileCard } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter, useRoute, RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
+import SLOTS from '@/mock/slots.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -50,8 +51,8 @@ onMounted(async () => {
 	const { date, dealer_id } = route.query;
 
 	try {
-		const { data: res } = await getSlotsList({ date, dealer_id });
-		slots.value = res.data;
+		// const { data: res } = await getSlotsList({ date, dealer_id });
+		slots.value = SLOTS;
 	} catch (err) {
 		console.error(err);
 	}

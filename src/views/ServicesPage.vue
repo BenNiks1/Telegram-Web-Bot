@@ -70,6 +70,7 @@ import {
 import { routes, numWord, formatNums } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import SERVICES from '@/mock/services.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -88,9 +89,9 @@ const title = computed(() =>
 
 onMounted(async () => {
 	try {
-		const { data: res } = await getServicesList();
-		servicesList.value = res.data;
-		sortServices(res.data, 'type');
+		// const { data: res } = await getServicesList();
+		servicesList.value = SERVICES;
+		sortServices(SERVICES, 'type');
 	} catch (err) {
 		console.error(err);
 	}
