@@ -19,7 +19,8 @@ onMounted(async () => {
 		ts.ready();
 		ts.expand();
 		ts.isClosingConfirmationEnabled = true;
-		ts.MainButton.enable();
+		ts.MainButton.text = 'asdasdasdasd';
+		ts.MainButton.show();
 	}
 });
 </script>
