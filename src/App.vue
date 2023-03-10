@@ -15,8 +15,11 @@ const ts = window?.Telegram?.WebApp;
 
 onMounted(async () => {
 	if (ts) {
+		console.log('ts', ts);
+		ts.ready();
 		ts.expand();
 		ts.isClosingConfirmationEnabled = true;
+		ts.MainButton.enable();
 	}
 });
 </script>
