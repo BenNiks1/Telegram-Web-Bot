@@ -23,6 +23,7 @@ onMounted(async () => {
 			text: 'asdasdasd',
 		});
 		ts.viewportStableHeight = window.innerHeight;
+		console.log('height', ts.viewportStableHeight);
 		ts.MainButton.show();
 	}
 });
