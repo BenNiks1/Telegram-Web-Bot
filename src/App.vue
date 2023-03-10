@@ -19,7 +19,10 @@ onMounted(async () => {
 		ts.ready();
 		ts.expand();
 		ts.isClosingConfirmationEnabled = true;
-		ts.MainButton.text = 'asdasdasdasd';
+		ts.MainButton.setParams({
+			text: 'asdasdasd',
+		});
+		ts.viewportStableHeight = window.innerHeight;
 		ts.MainButton.show();
 	}
 });
