@@ -18,12 +18,13 @@ onMounted(async () => {
 		console.log('ts', ts);
 		ts.ready();
 		ts.expand();
-		ts.isClosingConfirmationEnabled = true;
+		ts.enableClosingConfirmation();
 		ts.MainButton.setParams({
 			text: 'asdasdasd',
 		});
 		ts.MainButton.show();
-		ts.onEvent('viewportChanged', { isStateStable: true });
+		ts.onEvent('viewportChanged', { isStateStable: false });
+		console.log('asd');
 	}
 });
 </script>
