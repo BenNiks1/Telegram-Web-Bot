@@ -22,9 +22,8 @@ onMounted(async () => {
 		ts.MainButton.setParams({
 			text: 'asdasdasd',
 		});
-		ts.viewportStableHeight = window.innerHeight;
-		console.log('height', ts.viewportStableHeight);
 		ts.MainButton.show();
+		ts.onEvent('viewportChanged', { isStateStable: true });
 	}
 });
 </script>
