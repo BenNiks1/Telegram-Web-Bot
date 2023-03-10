@@ -1,7 +1,7 @@
 <template>
-  <ul class="accordion">
-    <slot></slot>
-  </ul>
+	<ul class="accordion">
+		<slot></slot>
+	</ul>
 </template>
 
 <script setup>
@@ -16,8 +16,8 @@ provide('active', active);
 
 <style lang="scss" scoped>
 .accordion {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 </style>

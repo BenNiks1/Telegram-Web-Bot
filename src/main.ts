@@ -1,9 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './registerServiceWorker';
 import router from './router';
 import store from './store';
-
 import { Calendar, DatePicker } from 'v-calendar';
 import SetupCalendar from 'v-calendar';
 

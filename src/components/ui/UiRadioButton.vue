@@ -19,26 +19,26 @@
 </template> -->
 
 <template>
-  <label class="wrapper flex items-center">
-    {{ label }}
-    <input
-      class="checkbox"
-      type="radio"
-      :checked="isChecked"
-      :value="value"
-      @change="$emit('change', $event.target.value)"
-    />
-    <span class="checkmark"></span>
-  </label>
+	<label class="wrapper flex items-center">
+		{{ label }}
+		<input
+			class="checkbox"
+			type="radio"
+			:checked="isChecked"
+			:value="value"
+			@change="$emit('change', $event.target.value)"
+		/>
+		<span class="checkmark"></span>
+	</label>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
-  label: { type: String, default: '', required: true },
-  modelValue: { type: String, default: '' },
-  value: { type: String, default: undefined },
+	label: { type: String, default: '', required: true },
+	modelValue: { type: String, default: '' },
+	value: { type: String, default: undefined },
 });
 
 const isChecked = computed(() => props.modelValue == props.value);
@@ -46,34 +46,34 @@ const isChecked = computed(() => props.modelValue == props.value);
 
 <style lang="scss" scoped>
 .radio-btn-group {
-  display: flex;
+	display: flex;
 
-  .radio {
-    margin: 0 0.25rem;
+	.radio {
+		margin: 0 0.25rem;
 
-    label {
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 0.5rem 1.25rem;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #444;
-      transition: box-shadow 400ms ease;
+		label {
+			background: #fff;
+			border: 1px solid #ddd;
+			padding: 0.5rem 1.25rem;
+			border-radius: 5px;
+			cursor: pointer;
+			color: #444;
+			transition: box-shadow 400ms ease;
 
-      &:hover {
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-      }
-    }
+			&:hover {
+				box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+			}
+		}
 
-    input[type='radio'] {
-      display: none;
-    }
+		input[type='radio'] {
+			display: none;
+		}
 
-    input[type='radio']:checked + label {
-      background: #2196f3;
-      color: #fff;
-      border-color: #2196f3;
-    }
-  }
+		input[type='radio']:checked + label {
+			background: #2196f3;
+			color: #fff;
+			border-color: #2196f3;
+		}
+	}
 }
 </style>

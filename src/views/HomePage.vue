@@ -1,91 +1,90 @@
 <template>
-  <section class="introduction">
-    <div class="introduction__header">
-      <h1 class="introduction__title">
-        Добро пожаловать во
-        <span class="introduction__title-additional">Fresh Сервис</span>
-      </h1>
-      <p class="introduction__description">
-        Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
-        самостоятельно.
-      </p>
-    </div>
+	<section class="introduction">
+		<div class="introduction__header">
+			<h1 class="introduction__title">
+				Добро пожаловать во
+				<span class="introduction__title-additional">Fresh Сервис</span>
+			</h1>
+			<p class="introduction__description">
+				Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
+				самостоятельно.
+			</p>
+		</div>
 
-    <div class="introduction__button">
-      <UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
-    </div>
-  </section>
+		<div class="introduction__button">
+			<UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
+		</div>
+	</section>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { UiButton } from '@/components';
 import { onMounted } from 'vue';
 import { routes } from '@/helpers';
 
 const router = useRouter();
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ts = (window as any).Telegram.WebApp;
+const ts = window?.Telegram?.WebApp;
 
 onMounted(async () => {
-  ts.expand();
+  if(ts) ts.expand();
 });
 
 const nextPage = () => {
-  router.push(routes.dc.path);
+	router.push(routes.dc.path);
 };
 </script>
 
 <style lang="scss" scoped>
 .introduction {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
 
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
 
-  &__title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	&__title {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 
-    font-size: 24px;
-    line-height: 30px;
-    font-weight: 500;
+		font-size: 24px;
+		line-height: 30px;
+		font-weight: 500;
 
-    &-additional {
-      font-weight: bold;
-    }
-  }
+		&-additional {
+			font-weight: bold;
+		}
+	}
 
-  &__description {
-    text-align: center;
-    color: #2b2b2b;
-  }
+	&__description {
+		text-align: center;
+		color: #2b2b2b;
+	}
 
-  &__button {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: calc(100vw - 40px);
-    margin-bottom: 25px;
-  }
+	&__button {
+		position: fixed;
+		bottom: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: calc(100vw - 40px);
+		margin-bottom: 25px;
+	}
 
-  @media screen and (max-height: 360px) {
-    &__button {
-      position: static;
-      width: 100%;
-      transform: none;
-    }
-  }
+	@media screen and (max-height: 360px) {
+		&__button {
+			position: static;
+			width: 100%;
+			transform: none;
+		}
+	}
 }
 </style>

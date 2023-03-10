@@ -10,11 +10,11 @@
  */
 
 export interface DateTimeFormatOptions extends Intl.DateTimeFormatOptions {
-  locales?: string;
+	locales?: string;
 }
 
 export const formatDate = (date: string, options: DateTimeFormatOptions) => {
-  const newDate = new Date(date);
-  const formater = new Intl.DateTimeFormat(options?.locales || 'ru', options);
-  return formater.format(newDate);
+	const newDate = new Date(date);
+	const formater = new Intl.DateTimeFormat(options?.locales || 'ru', options);
+	return formater.format(newDate);
 };

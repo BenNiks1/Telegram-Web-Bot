@@ -36,7 +36,7 @@ $bold-accent-line-height: $base-line-height;
 $bold-accent-font-weight: bold;
 $bold-accent-letter-spacing: $base-letter-spacing;
 $bold-accent-font: $bold-accent-font-weight #{$bold-accent-font-size} / #{$bold-accent-line-height}
-  $font;
+	$font;
 
 $accent-font-size: $base-font-size;
 $accent-line-height: $base-line-height;
@@ -44,7 +44,7 @@ $accent-font-weight: $base-font-weight;
 $accent-font-style: italic;
 $accent-letter-spacing: $base-letter-spacing;
 $accent-font: $accent-font-style $accent-font-weight #{$accent-font-size} / #{$accent-line-height}
-  $font;
+	$font;
 
 // colors
 $base-color: #11152c;

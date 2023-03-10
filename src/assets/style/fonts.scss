@@ -1,38 +1,38 @@
 @font-face {
-  font-family: Aeroport;
-  src: local('Aeroport Light'), local('Aeroport-Light'),
-    local('../fonts/Aeroport-Light.woff2') format('woff2'),
-    local('../fonts/Aeroport-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+	font-family: Aeroport;
+	src: local('Aeroport Light'), local('Aeroport-Light'),
+		local('../fonts/Aeroport-Light.woff2') format('woff2'),
+		local('../fonts/Aeroport-Light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: Aeroport;
-  src: local('Aeroport'), local('../fonts/Aeroport.woff2') format('woff2'),
-    local('../fonts/Aeroport.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: Aeroport;
+	src: local('Aeroport'), local('../fonts/Aeroport.woff2') format('woff2'),
+		local('../fonts/Aeroport.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: Aeroport;
-  src: local('Aeroport Medium'), local('Aeroport-Medium'),
-    local('../fonts/Aeroport-Medium.woff2') format('woff2'),
-    local('../fonts/Aeroport-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+	font-family: Aeroport;
+	src: local('Aeroport Medium'), local('Aeroport-Medium'),
+		local('../fonts/Aeroport-Medium.woff2') format('woff2'),
+		local('../fonts/Aeroport-Medium.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: Aeroport;
-  src: local('Aeroport Bold'), local('Aeroport-Bold'),
-    local('../fonts/Aeroport-Bold.woff2') format('woff2'),
-    local('../fonts/Aeroport-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+	font-family: Aeroport;
+	src: local('Aeroport Bold'), local('Aeroport-Bold'),
+		local('../fonts/Aeroport-Bold.woff2') format('woff2'),
+		local('../fonts/Aeroport-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
 }
