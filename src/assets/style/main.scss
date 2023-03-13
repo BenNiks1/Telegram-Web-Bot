@@ -437,6 +437,10 @@ a:hover {
 	font-weight: 600;
 }
 
+.app {
+	overflow-y: auto;
+}
+
 @keyframes appearing {
 	from {
 		opacity: 0;

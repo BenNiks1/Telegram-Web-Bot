@@ -1,10 +1,10 @@
 <template>
 	<header class="header">
-		<div class="header__circle-left" />
-		<div class="header__circle-right" />
+		<!-- <div class="header__circle-left" />
+		<div class="header__circle-right" /> -->
 
 		<RouterLink to="/">
-			{{ ts.viewportStableHeight }}
+			{{ height }}
 			<InlineSvg class="header__logo" src="/static/svg/logo.svg" />
 		</RouterLink>
 	</header>
@@ -12,10 +12,16 @@
 
 <script setup>
 import InlineSvg from 'vue-inline-svg';
-import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+import { ref, watch } from 'vue';
 
-const ts = ref(window?.Telegram?.WebApp);
+const route = useRoute();
+
+const ts = window?.Telegram?.WebApp;
+const height = ref(ts.viewportStableHeight);
+watch(route.path, () => {
+	height.value = ts.viewportStableHeight;
+});
 </script>
 
 <style lang="scss" scoped>
