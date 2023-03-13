@@ -330,7 +330,7 @@ button {
 }
 
 html {
-	overflow: hidden;
+	// overflow: hidden;
 	scroll-behavior: smooth;
 }
 
@@ -339,13 +339,13 @@ body {
 	font-family: $font;
 	color: $base-color;
 	font: $font-base;
-	overflow-x: hidden;
+	// overflow-x: hidden;
 
 	&.noscroll {
 		position: fixed;
 		width: 100%;
 		height: 100%;
-		overflow: hidden;
+		// overflow: hidden;
 	}
 }
 
