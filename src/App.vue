@@ -24,7 +24,7 @@ onMounted(async () => {
 		});
 		ts.MainButton.show();
 		ts.onEvent('viewportChanged', { isStateStable: false });
-		console.log('asd');
+		console.log('asd', ts.viewportStableHeight);
 	}
 });
 </script>
