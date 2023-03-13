@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
-		<!-- <div class="header__circle-left" />
-		<div class="header__circle-right" /> -->
+		<div class="header__circle-left" />
+		<div class="header__circle-right" />
 
 		<RouterLink to="/">
 			{{ height }}
