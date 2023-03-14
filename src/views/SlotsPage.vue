@@ -26,17 +26,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import { getSlotsList } from '@/api';
 import { UiBreadcrumbs, ProfileCard } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter, useRoute, RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
-import SLOTS from '@/mock/slots.json';
+import SLOTS_MOCK from '@/mock/slots.json';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+
+const notification = inject('notification');
 
 const slots = ref(null);
 const breadcrumbs = ref([
@@ -52,9 +54,10 @@ onMounted(async () => {
 
 	try {
 		// const { data: res } = await getSlotsList({ date, dealer_id });
-		slots.value = SLOTS;
+		slots.value = SLOTS_MOCK;
 	} catch (err) {
 		console.error(err);
+		notification({ type: 'error' });
 	}
 });
 

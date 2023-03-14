@@ -28,7 +28,7 @@
 
 <script setup>
 import { UiBreadcrumbs, UiButton } from '@/components';
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { routes, formatDate } from '@/helpers';
@@ -38,16 +38,19 @@ const router = useRouter();
 const route = useRoute();
 const store = useStore();
 
+const notification = inject('notification');
+
 const date = ref(null);
 const availableDates = ref([]);
 const breadcrumbs = ref([routes.main, routes.dc, routes.services, routes.calendar]);
 
 const getAvailableDates = async (params) => {
 	try {
-		const { data: res } = await getDates(params);
-		availableDates.value = res.data;
+		// const { data: res } = await getDates(params);
+		// availableDates.value = res.data;
 	} catch (error) {
 		console.error(error);
+		notification({ type: 'error' });
 	}
 };
 

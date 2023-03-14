@@ -12,69 +12,61 @@
 				<li class="type-list__item">Диагностика авто перед покупкой</li>
 			</ul>
 
-			<UiAccordion v-if="showServices">
-				<AccordionItem
+			<div v-else class="services__list">
+				<UiAccordion
 					v-for="([type, services], index) in Object.entries(formatedServices)"
 					:key="index"
 					class="services-accordion"
+					:summary="type"
+					:count="`${services.length} ${numWord(services.length, numWords)}`"
 				>
-					<template #accordion-trigger>
-						<h3 class="services-accordion__title">
-							{{ type }}
-							<span>
-								{{ `${services.length} ${numWord(services.length, numWords)}` }}
-							</span>
-						</h3>
-					</template>
-					<template #accordion-content>
-						<div
-							v-for="service in services"
-							:key="service.id"
-							class="services-accordion__content"
+					<div
+						v-for="service in services"
+						:key="service.id"
+						class="services-accordion__content"
+					>
+						<UiCheckbox
+							v-model:checked="serviceIds"
+							:value="serviceIds"
+							:field-id="service.id"
 						>
-							<UiCheckbox
-								v-model:checked="serviceIds"
-								:value="serviceIds"
-								:field-id="service.id"
-							>
-								<b>{{ service.name }}</b>
-								<p>
-									<b>Цена:</b>
-									{{ formatNums(service.price) }}
-								</p>
-							</UiCheckbox>
-						</div>
-					</template>
-				</AccordionItem>
-			</UiAccordion>
+							<b>{{ service.name }}</b>
+							<p>
+								<b>Цена:</b>
+								{{ formatNums(service.price) }}
+							</p>
+						</UiCheckbox>
+					</div>
+				</UiAccordion>
 
-			<div v-if="showServices" class="services__button">
-				<UiButton style-type="primary" :disabled="!serviceIds?.length" @click="nextPage">
-					Продолжить
-				</UiButton>
+				<div class="services__button" :class="{ active: serviceIds.length }">
+					<UiButton
+						style-type="primary"
+						:disabled="!serviceIds?.length"
+						@click="nextPage"
+					>
+						Продолжить
+					</UiButton>
+				</div>
 			</div>
 		</div>
 	</section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, inject, onMounted } from 'vue';
 import { getServicesList } from '@/api';
-import {
-	UiBreadcrumbs,
-	UiAccordion,
-	AccordionItem,
-	UiCheckbox,
-	UiButton,
-} from '@/components';
+import { UiBreadcrumbs, UiCheckbox, UiAccordion, UiButton } from '@/components';
 import { routes, numWord, formatNums } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import SERVICES from '@/mock/services.json';
+import SERVICES_MOCK from '@/mock/services.json';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+
+const notification = inject('notification');
 
 const serviceIds = ref([]);
 const formatedServices = ref({});
@@ -90,10 +82,11 @@ const title = computed(() =>
 onMounted(async () => {
 	try {
 		// const { data: res } = await getServicesList();
-		servicesList.value = SERVICES;
-		sortServices(SERVICES, 'type');
+		servicesList.value = SERVICES_MOCK;
+		sortServices(SERVICES_MOCK, 'type');
 	} catch (err) {
 		console.error(err);
+		notification({ type: 'error' });
 	}
 });
 
@@ -111,7 +104,7 @@ const sortServices = (list, sortBy) => {
 
 const nextPage = () => {
 	store.commit(
-		'STORE_SERVICES',
+		'SET_SERVICE_LIST',
 		servicesList.value.filter((service) => serviceIds.value.includes(service.id))
 	);
 
@@ -131,6 +124,10 @@ const nextPage = () => {
 		font-size: 22px;
 		line-height: 30px;
 		font-weight: 500;
+	}
+
+	&__list {
+		padding-bottom: 100px;
 	}
 
 	.type-list {
@@ -164,33 +161,27 @@ const nextPage = () => {
 		}
 	}
 
+	&-accordion {
+		&__content {
+			&:not(:last-child) {
+				padding: 10px 0;
+				border-bottom: 1px solid $color-border;
+			}
+		}
+	}
+
 	&__button {
 		position: fixed;
-		bottom: 10px;
 		left: 50%;
+		bottom: -100px;
 		transform: translateX(-50%);
 		width: calc(100vw - 40px);
 		height: 42px;
 		margin-bottom: 25px;
-	}
+		transition: all $transition-duration;
 
-	&-accordion {
-		&__content {
-			display: block;
-			margin-left: 20px;
-			padding: 0 0 10px 20px;
-			border-bottom: 1px solid $color-border;
-		}
-
-		&__title {
-			font-size: 20px;
-			font-weight: bold;
-
-			span {
-				font-size: 16px;
-				font-weight: normal;
-				color: $color-text-secondary-contrast;
-			}
+		&.active {
+			bottom: 10px;
 		}
 	}
 }

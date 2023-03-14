@@ -33,7 +33,7 @@
 					<UiDelimiter type="dotted" />
 
 					<div
-						v-for="service in store.state.services"
+						v-for="service in store.state.serviceList"
 						:key="service.id"
 						class="check-wrapper"
 					>
@@ -68,7 +68,7 @@ defineProps({
 });
 
 const totalPrice = computed(() =>
-	store.state.services.reduce((prev, curr) => prev + curr.price, 0)
+	store.state.serviceList.reduce((prev, curr) => prev + curr.price, 0)
 );
 </script>
 

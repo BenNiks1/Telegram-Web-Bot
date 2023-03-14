@@ -1,6 +1,6 @@
-<!-- eslint-disable vue/no-multiple-template-root -->
 <template>
 	<TheHeader />
+	<UiNotification />
 	<main class="main">
 		<RouterView />
 	</main>
@@ -10,20 +10,14 @@
 import { RouterView } from 'vue-router';
 import { onMounted } from 'vue';
 import TheHeader from '@/layout/TheHeader.vue';
+import { UiNotification } from '@/components';
 
-const ts = window?.Telegram?.WebApp;
+const tg = window?.Telegram?.WebApp;
 
 onMounted(async () => {
-	if (ts) {
-		console.log('ts', ts);
-		ts.ready();
-		ts.expand();
-		ts.enableClosingConfirmation();
-		ts.MainButton.setParams({
-			text: 'asdasdasd',
-		});
-		ts.MainButton.show();
-		ts.onEvent('viewportChanged', { isStateStable: false });
+	if (tg) {
+		tg.expand();
+		tg.enableClosingConfirmation();
 	}
 });
 </script>

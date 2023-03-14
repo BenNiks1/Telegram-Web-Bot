@@ -4,7 +4,16 @@ import UiInput from './UiInput.vue';
 import UiRadioButton from './UiRadioButton.vue';
 import UiCheckbox from './UiCheckbox.vue';
 import UiDelimiter from './UiDelimiter.vue';
+import UiAccordion from './UiAccordion.vue';
+import UiNotification from './UiNotification.vue';
 
-export * from './UiAccordion';
-
-export { UiBreadcrumbs, UiButton, UiInput, UiRadioButton, UiCheckbox, UiDelimiter };
+export {
+	UiBreadcrumbs,
+	UiButton,
+	UiInput,
+	UiRadioButton,
+	UiCheckbox,
+	UiDelimiter,
+	UiAccordion,
+	UiNotification,
+};

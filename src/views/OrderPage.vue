@@ -107,13 +107,15 @@
 
 <script setup>
 import { UiBreadcrumbs, UiButton, UiInput, CheckoutCard } from '@/components';
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { routes } from '@/helpers';
 import { postOrder } from '@/api';
 
 const router = useRouter();
 const route = useRoute();
+
+const notification = inject('notification');
 
 const isSubmit = ref(false);
 
@@ -167,10 +169,11 @@ const submit = async () => {
 	};
 
 	try {
-		await postOrder(data);
+		// await postOrder(data);
 		router.push(routes.success.path);
 	} catch (error) {
 		console.error(error);
+		notification({ type: 'error' });
 	}
 };
 

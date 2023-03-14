@@ -4,45 +4,39 @@
 		<div class="dc__inner">
 			<h1 class="title">Выберите сервисный центр</h1>
 
-			<UiAccordion>
-				<AccordionItem
-					v-for="([city, services], index) in Object.entries(serviceList)"
-					:key="index"
+			<UiAccordion
+				v-for="([city, services], index) in Object.entries(serviceList)"
+				:key="index"
+				:summary="city"
+			>
+				<div
+					v-for="service in services"
+					:key="service.id"
+					class="dc-accordion__content"
+					@click="() => nextPage(service)"
 				>
-					<template #accordion-trigger>
-						<h3 class="dc-accordion__title">
-							{{ city }}
-						</h3>
-					</template>
-					<template #accordion-content>
-						<div
-							v-for="service in services"
-							:key="service.id"
-							class="dc-accordion__content"
-							@click="() => nextPage(service)"
-						>
-							<b>{{ service.city }} - {{ service.name }}</b>
-							<p>Адрес: {{ service.address || '-' }}</p>
-							<p>
-								Часы работы с {{ service.work_time_start }} до
-								{{ service.work_time_end }}
-							</p>
-						</div>
-					</template>
-				</AccordionItem>
+					<b>{{ service.city }} - {{ service.name }}</b>
+					<p>Адрес: {{ service.address || '-' }}</p>
+					<p>
+						Часы работы с {{ service.work_time_start }} до
+						{{ service.work_time_end }}
+					</p>
+				</div>
 			</UiAccordion>
 		</div>
 	</section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import { getDCList } from '@/api';
-import { UiBreadcrumbs, UiAccordion, AccordionItem } from '@/components';
+import { UiBreadcrumbs, UiAccordion } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import DC from '@/mock/dc.json';
+import DC_MOCK from '@/mock/dc.json';
+
+const notification = inject('notification');
 
 const serviceList = ref({});
 const breadcrumbs = ref([routes.main, routes.dc]);
@@ -54,9 +48,10 @@ onMounted(async () => {
 	try {
 		// const { data: res } = await getDCList();
 
-		sortServices(DC, 'city');
+		sortServices(DC_MOCK, 'city');
 	} catch (err) {
 		console.error(err);
+		notification({ type: 'error' });
 	}
 });
 
@@ -89,20 +84,9 @@ const nextPage = (service) => {
 
 	&-accordion {
 		&__content {
-			display: block;
-			margin-left: 20px;
-			padding: 0 0 10px 20px;
-			border-bottom: 1px solid $color-border;
-		}
-
-		&__title {
-			font-size: 20px;
-			font-weight: bold;
-
-			span {
-				font-size: 16px;
-				font-weight: normal;
-				color: $color-text-secondary-contrast;
+			&:not(:last-child) {
+				padding: 10px 0;
+				border-bottom: 1px solid $color-border;
 			}
 		}
 	}
