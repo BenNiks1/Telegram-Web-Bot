@@ -1,84 +1,78 @@
 <template>
-	<section class="introduction">
-		<div class="introduction__header">
-			<h1 class="introduction__title">
-				Добро пожаловать во
-				<span class="introduction__title-additional">Fresh Сервис</span>
-			</h1>
-			<p class="introduction__description">
-				Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
-				самостоятельно.
-			</p>
-		</div>
-
-		<div class="introduction__button">
-			<UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
-		</div>
-	</section>
+	<div class="row">
+		<form class="form" name="TinkoffPayForm" onsubmit="pay(this); return false;">
+			<input
+				class="form__input"
+				type="hidden"
+				name="terminalkey"
+				value="TinkoffBankTest"
+			/>
+			<input class="form__input" type="hidden" name="frame" value="true" />
+			<input class="form__input" type="hidden" name="language" value="ru" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Сумма заказа"
+				name="amount"
+				required
+			/>
+			<input class="form__input" type="text" placeholder="Номер заказа" name="order" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Описание заказа"
+				name="description"
+			/>
+			<input class="form__input" type="text" placeholder="ФИО плательщика" name="name" />
+			<input class="form__input" type="text" placeholder="E-mail" name="email" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Контактный телефон"
+				name="phone"
+			/>
+			<input class="form__input" type="submit" value="Оплатить" />
+		</form>
+	</div>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { UiButton } from '@/components';
-import { routes } from '@/helpers';
+<script>
+export default {
+	name: 'SellChoose',
 
-const router = useRouter();
-
-const nextPage = () => {
-	router.push(routes.dc.path);
+	head() {
+		return {
+			title: 'Fresh Auto: продажа',
+			script: [
+				{
+					hid: 'stripe',
+					src: 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js',
+					defer: true,
+				},
+			],
+		};
+	},
+	// metaInfo: {
+	// 	script: [
+	// 		{
+	// 			src: 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js',
+	// 			async: true,
+	// 			defer: true,
+	// 		},
+	// 	],
+	// },
 };
 </script>
 
 <style lang="scss" scoped>
-.introduction {
+.form {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	height: 100%;
+	gap: 10px;
 
-	&__header {
-		display: flex;
-		flex-direction: column;
-		gap: 30px;
-	}
-
-	&__title {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		font-size: 24px;
-		line-height: 30px;
-		font-weight: 500;
-
-		&-additional {
-			font-weight: bold;
-		}
-	}
-
-	&__description {
-		text-align: center;
-		color: #2b2b2b;
-	}
-
-	&__button {
-		position: fixed;
-		bottom: 10px;
-		left: 50%;
-		transform: translateX(-50%);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: calc(100vw - 40px);
-		margin-bottom: 25px;
-	}
-
-	@media screen and (max-height: 360px) {
-		&__button {
-			position: static;
-			width: 100%;
-			transform: none;
-		}
+	&__input {
+		padding: 10px;
+		border: 1px solid $base-color;
 	}
 }
 </style>

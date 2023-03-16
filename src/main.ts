@@ -5,6 +5,8 @@ import store from './store';
 import { Calendar, DatePicker } from 'v-calendar';
 import SetupCalendar from 'v-calendar';
 
+// import Meta from 'vue-meta';
+
 import notification from './plugins/notification';
 
 import 'v-calendar/dist/style.css';
@@ -12,6 +14,7 @@ import 'v-calendar/dist/style.css';
 const app = createApp(App);
 app.use(router);
 app.use(store);
+// app.use(Meta);
 
 app.use(notification);
 
