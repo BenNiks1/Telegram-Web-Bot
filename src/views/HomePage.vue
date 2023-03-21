@@ -1,84 +1,85 @@
 <template>
-	<section class="introduction">
-		<div class="introduction__header">
-			<h1 class="introduction__title">
-				Добро пожаловать во
-				<span class="introduction__title-additional">Fresh Сервис</span>
-			</h1>
-			<p class="introduction__description">
-				Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
-				самостоятельно.
-			</p>
-		</div>
+	<div class="row">
+		<form class="form" name="TinkoffPayForm" onsubmit="pay(this);return false">
+			<input class="form__input" type="hidden" name="terminalkey" :value="terminalkey" />
+			<input class="form__input" type="hidden" name="token" :value="token" />
+			<input class="form__input" type="hidden" name="password" :value="token" />
 
-		<div class="introduction__button">
-			<UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
-		</div>
-	</section>
+			<input class="form__input" type="hidden" name="frame" value="true" />
+			<input class="form__input" type="hidden" name="language" value="ru" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Сумма заказа"
+				name="amount"
+				:value="amount"
+				required
+			/>
+			<input class="form__input" type="text" placeholder="Номер заказа" name="order" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Описание заказа"
+				name="description"
+			/>
+			<input class="form__input" type="text" placeholder="ФИО плательщика" name="name" />
+			<input class="form__input" type="text" placeholder="E-mail" name="email" />
+			<input
+				class="form__input"
+				type="text"
+				placeholder="Контактный телефон"
+				name="phone"
+			/>
+			<input class="form__input" type="submit" value="Оплатить" />
+		</form>
+	</div>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { UiButton } from '@/components';
-import { routes } from '@/helpers';
+<script setup>
+import { onMounted, ref } from 'vue';
 
-const router = useRouter();
+const token = ref('i0h9eudl2bamushm');
+const terminalkey = ref('1675421001484DEMO');
+const amount = ref(100);
 
-const nextPage = () => {
-	router.push(routes.dc.path);
+onMounted(() => {
+	const recaptchaScript = document.createElement('script');
+	recaptchaScript.setAttribute(
+		'src',
+		'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
+	);
+	document.head.appendChild(recaptchaScript);
+});
+
+const tinkPay = (e) => {
+	console.log('e', e.target[0].value);
+	const formData = {
+		terminalkey: '1675421001484DEMO',
+		token: 'i0h9eudl2bamushm',
+		frame: 'true',
+		language: 'ru',
+
+		amount: e.target[3].value,
+		order: e.target[4].value,
+		description: e.target[5].value,
+		name: e.target[6].value,
+		email: e.target[7].value,
+		phone: e.target[8].value,
+	};
+	window.pay(formData);
+	return false;
 };
 </script>
 
 <style lang="scss" scoped>
-.introduction {
+.form {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	height: calc(100% - 107px);
+	gap: 10px;
 
-	&__header {
-		display: flex;
-		flex-direction: column;
-		gap: 30px;
-	}
-
-	&__title {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		font-size: 24px;
-		line-height: 30px;
-		font-weight: 500;
-
-		&-additional {
-			font-weight: bold;
-		}
-	}
-
-	&__description {
-		text-align: center;
-		color: #2b2b2b;
-	}
-
-	&__button {
-		position: fixed;
-		bottom: 10px;
-		left: 50%;
-		transform: translateX(-50%);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: calc(100vw - 40px);
-		margin-bottom: 25px;
-	}
-
-	@media screen and (max-height: 360px) {
-		&__button {
-			position: static;
-			width: 100%;
-			transform: none;
-		}
+	&__input {
+		padding: 10px;
+		border: 1px solid $base-color;
 	}
 }
 </style>
