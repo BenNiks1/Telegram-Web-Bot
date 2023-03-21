@@ -79,7 +79,7 @@ const tinkoffPayFunction = async (e) => {
 			Email: email.value,
 			Phone: phone.value,
 			EmailCompany: 'mail@mail.com',
-			Taxation: 'patent',
+			Taxation: 'osn',
 			Items: [
 				{
 					Name: description.value,
