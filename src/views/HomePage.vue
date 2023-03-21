@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<form class="form" name="TinkoffPayForm" onsubmit="pay(this);return false">
+		<form class="form" name="TinkoffPayForm">
 			<input class="form__input" type="hidden" name="terminalkey" :value="terminalkey" />
 			<input class="form__input" type="hidden" name="token" :value="token" />
 			<input class="form__input" type="hidden" name="password" :value="token" />
@@ -8,11 +8,11 @@
 			<input class="form__input" type="hidden" name="frame" value="true" />
 			<input class="form__input" type="hidden" name="language" value="ru" />
 			<input
+				v-model="amount"
 				class="form__input"
 				type="text"
 				placeholder="Сумма заказа"
 				name="amount"
-				:value="amount"
 				required
 			/>
 			<input class="form__input" type="text" placeholder="Номер заказа" name="order" />
@@ -23,14 +23,29 @@
 				name="description"
 			/>
 			<input class="form__input" type="text" placeholder="ФИО плательщика" name="name" />
-			<input class="form__input" type="text" placeholder="E-mail" name="email" />
 			<input
+				v-model="email"
+				class="form__input"
+				type="text"
+				placeholder="E-mail"
+				name="email"
+				required
+			/>
+			<input
+				v-model="phone"
 				class="form__input"
 				type="text"
 				placeholder="Контактный телефон"
 				name="phone"
+				required
 			/>
-			<input class="form__input" type="submit" value="Оплатить" />
+			<input class="tinkoffPayRow" type="hidden" name="receipt" value="" />
+			<input
+				class="form__input"
+				type="submit"
+				value="Оплатить"
+				@click="(e) => tinkoffPayFunction(e)"
+			/>
 		</form>
 	</div>
 </template>
@@ -41,6 +56,9 @@ import { onMounted, ref } from 'vue';
 const token = ref('i0h9eudl2bamushm');
 const terminalkey = ref('1675421001484DEMO');
 const amount = ref(100);
+const phone = ref('');
+const email = ref('');
+const description = ref('Оплата');
 
 onMounted(() => {
 	const recaptchaScript = document.createElement('script');
@@ -50,6 +68,42 @@ onMounted(() => {
 	);
 	document.head.appendChild(recaptchaScript);
 });
+
+const tinkoffPayFunction = async (e) => {
+	e.preventDefault();
+
+	const form = e.target.parentElement;
+
+	if (amount.value && email.value.length && phone.value.length) {
+		form.receipt.value = JSON.stringify({
+			Email: email.value,
+			Phone: phone.value,
+			EmailCompany: 'mail@mail.com',
+			Taxation: 'patent',
+			Items: [
+				{
+					Name: description.value,
+					Price: amount.value + '00',
+					Quantity: 1.0,
+					Amount: amount.value + '00',
+					PaymentMethod: 'full_prepayment',
+					PaymentObject: 'service',
+					Tax: 'none',
+				},
+			],
+		});
+		window.pay(form);
+	} else {
+		alert('Не все обязательные поля заполнены');
+	}
+	return false;
+
+	// try {
+	// 	await window.pay(e.target);
+	// } catch (err) {
+	// 	console.error(err);
+	// }
+};
 </script>
 
 <style lang="scss" scoped>
