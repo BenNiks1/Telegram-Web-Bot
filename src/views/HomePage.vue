@@ -38,8 +38,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-const token = ref('v0lf5pihbd9s0r8t');
-const terminalkey = ref('1675421001484');
+const token = ref('i0h9eudl2bamushm');
+const terminalkey = ref('1675421001484DEMO');
 const amount = ref(100);
 
 onMounted(() => {
@@ -50,25 +50,6 @@ onMounted(() => {
 	);
 	document.head.appendChild(recaptchaScript);
 });
-
-const tinkPay = (e) => {
-	console.log('e', e.target[0].value);
-	const formData = {
-		terminalkey: '1675421001484DEMO',
-		token: 'i0h9eudl2bamushm',
-		frame: 'true',
-		language: 'ru',
-
-		amount: e.target[3].value,
-		order: e.target[4].value,
-		description: e.target[5].value,
-		name: e.target[6].value,
-		email: e.target[7].value,
-		phone: e.target[8].value,
-	};
-	window.pay(formData);
-	return false;
-};
 </script>
 
 <style lang="scss" scoped>
