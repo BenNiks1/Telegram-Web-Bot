@@ -55,14 +55,21 @@ defineProps({
 	&__summary,
 	&__body {
 		background-color: transparent;
+		margin-bottom: 10px;
+
+		cursor: pointer;
 	}
 
 	&__summary {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px 20px 10px;
+		padding: 10px 20px;
 		border-bottom: 1px solid #d4d5d9;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
 
 		.summary-wrapper {
 			&__text {

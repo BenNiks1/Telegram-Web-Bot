@@ -1,19 +1,24 @@
 <template>
 	<section class="slots">
 		<UiBreadcrumbs :items="breadcrumbs" />
-		<div class="slots__inner">
-			<h1 class="title">Выбрать мастера</h1>
-			<RouterLink
-				:to="{ path: routes.order.path, query: route.query }"
-				class="slots__next-page"
+		<div v-if="!isLoading && masters?.length" class="slots__inner">
+			<h1 class="title">{{ title }}</h1>
+
+			<UiButton
+				class="slots__set-step"
+				style-type="base"
+				@click="isSkipMaster = !isSkipMaster"
 			>
-				Пропустить выбор мастера
-			</RouterLink>
-			<ul v-if="slots?.length" class="slots__list">
-				<li v-for="slot in slots" :key="slot.id" class="slots__list-item">
+				{{ setSteppTitle }}
+			</UiButton>
+
+			<ul class="slots__list">
+				<li v-for="slot in currentMasters" :key="slot.id" class="slots__list-item">
 					<ProfileCard
-						:profile-id="slot.id"
-						:name="slot.name"
+						:is-skip-master="isSkipMaster"
+						:master="slot"
+						:first-name="slot.first_name"
+						:lastt-name="slot.last_name"
 						:grade="slot.grade"
 						:grade-count="slot.grade_count"
 						:slots="slot.slots"
@@ -22,17 +27,26 @@
 				</li>
 			</ul>
 		</div>
+
+		<EmptyList v-else-if="!isLoading && !masters?.length" class="slots-empty">
+			<p>
+				К сожалению на данную дату свободных мастеров нет. Пожалуйста, выберите другую
+				дату.
+			</p>
+			<UiButton style-type="secondary" type="button" @click="prevPage">Назад</UiButton>
+		</EmptyList>
+
+		<UiLoader v-else />
 	</section>
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from 'vue';
+import { ref, inject, computed, shallowRef, onMounted } from 'vue';
 import { getSlotsList } from '@/api';
-import { UiBreadcrumbs, ProfileCard } from '@/components';
+import { UiBreadcrumbs, ProfileCard, EmptyList, UiLoader, UiButton } from '@/components';
 import { routes } from '@/helpers';
-import { useRouter, useRoute, RouterLink } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import SLOTS_MOCK from '@/mock/slots.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -40,8 +54,10 @@ const store = useStore();
 
 const notification = inject('notification');
 
-const slots = ref(null);
-const breadcrumbs = ref([
+const isLoading = ref(false);
+const isSkipMaster = ref(false);
+const masters = ref(null);
+const breadcrumbs = shallowRef([
 	routes.main,
 	routes.dc,
 	routes.services,
@@ -49,17 +65,37 @@ const breadcrumbs = ref([
 	routes.slots,
 ]);
 
+const currentMasters = computed(() => {
+	if (isSkipMaster.value) return new Array(setMaxLengthSlot(masters.value)[0]);
+	else return masters.value;
+});
+
+const title = computed(() => (isSkipMaster.value ? 'Выбрать время' : 'Выбрать мастера'));
+
+const setSteppTitle = computed(() =>
+	isSkipMaster.value ? 'Выбрать мастера' : 'Пропустить выбор мастера'
+);
+
 onMounted(async () => {
 	const { date, dealer_id } = route.query;
 
 	try {
-		// const { data: res } = await getSlotsList({ date, dealer_id });
-		slots.value = SLOTS_MOCK;
+		isLoading.value = true;
+		const { data: res } = await getSlotsList({ date, dealer_id });
+		masters.value = res.data;
 	} catch (err) {
 		console.error(err);
 		notification({ type: 'error' });
+		isLoading.value = false;
+	} finally {
+		isLoading.value = false;
 	}
 });
+
+// При пропуске выбора мастре, выбирается мастер с наибольшим кол-вом свободного времени
+const setMaxLengthSlot = (masters) => {
+	return masters?.sort((a, b) => b.slots.length - a.slots.length);
+};
 
 const calculateTime = (time, minutes = 30) => {
 	const parts = time.split(':');
@@ -87,12 +123,23 @@ const setSlot = (slot) => {
 	};
 	router.push({ path: routes.order.path, query: { ...route.query, ...query } });
 };
+
+const prevPage = () => {
+	router.push({ path: routes.calendar.path, query: route.query });
+};
 </script>
 
 <style lang="scss" scoped>
 .slots {
 	height: 100%;
 	position: relative;
+
+	&-empty {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		margin: 30px 0;
+	}
 
 	&__title {
 		margin: 10px 0 20px;
@@ -101,21 +148,16 @@ const setSlot = (slot) => {
 		font-weight: 600;
 	}
 
-	&__next-page {
-		display: inline-block;
-		width: 100%;
-		padding: 10px;
+	&__set-step {
 		margin-bottom: 10px;
-		border: 1px solid $color-border;
-		border-radius: 7px;
-		text-align: center;
+		border: 1px solid $primary;
 		background: $white;
-		z-index: 1;
 	}
 
 	&__list {
 		padding: 0;
 		list-style: none;
+		padding-bottom: 40px;
 
 		&-item {
 			&:not(:last-child) {

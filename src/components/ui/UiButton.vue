@@ -1,16 +1,20 @@
 <template>
 	<component
 		:is="componentTag"
-		v-bind="$attrs"
+		v-bind="attrs"
 		:disabled="disabled || loading"
 		:class="['button', classes]"
 	>
 		<div v-if="counter" class="button__counter">
 			{{ counter }}
 		</div>
+
+		<UiLoader v-if="loading" class="button__loader" color="white" size="sm" />
+
 		<span class="button__text">
 			<slot />
 		</span>
+
 		<span class="button__icon">
 			<slot name="icon" />
 		</span>
@@ -19,123 +23,112 @@
 	</component>
 </template>
 
-<script>
-export default {
-	name: 'UiButton',
+<script setup>
+import { computed, useAttrs } from 'vue';
+import { UiLoader } from '@/components';
 
-	props: {
-		size: {
-			type: String,
-			default: 'md',
-			validator: (value) => {
-				// Значение должно соответствовать одной из этих строк
-				return ['xs', 'sm', 'md', 'lg'].includes(value);
-			},
-		},
-
-		// eslint-disable-next-line vue/no-unused-properties
-		type: {
-			type: String,
-			default: 'button',
-		},
-
-		styleType: {
-			type: String,
-			default: 'base',
-			validator: (value) => {
-				// Значение должно соответствовать одной из этих строк
-				return [
-					'base',
-					'primary',
-					'secondary',
-					'secondary-grey',
-					'black',
-					'white',
-					'gray',
-					'gray-bg',
-					'icon-sided-text',
-				].includes(value);
-			},
-		},
-
-		plain: {
-			type: Boolean,
-			default: false,
-		},
-		icon: {
-			type: Boolean,
-			default: false,
-		},
-		shadow: {
-			type: Boolean,
-			default: false,
-		},
-
-		iconLeft: {
-			type: Boolean,
-			default: false,
-		},
-
-		counter: {
-			type: Number,
-			default: 0,
-		},
-
-		loading: {
-			type: Boolean,
-			default: false,
-		},
-		disabled: {
-			type: Boolean,
-			default: false,
-		},
-		readonly: {
-			type: Boolean,
-			default: false,
-		},
-		fullWidth: {
-			type: Boolean,
-			default: false,
-		},
-		tag: {
-			type: String,
-			default: null,
-		},
+const attrs = useAttrs();
+const props = defineProps({
+	size: {
+		type: String,
+		default: 'md',
+		validator: (value) => ['xs', 'sm', 'md', 'lg'].includes(value),
 	},
 
-	computed: {
-		classes() {
-			const classes = {
-				button_plain: this.plain,
-				button_icon: this.icon,
-				button_shadow: this.shadow,
-
-				'button_icon-left': this.iconLeft,
-
-				'button_full-width': this.fullWidth,
-
-				'is-readonly': this.readonly || this.loading,
-				'is-disabled': this.disabled,
-			};
-			return [
-				classes,
-				`button_${this.size}`,
-				this.styleType ? `button_${this.styleType}` : '',
-			];
-		},
-
-		/**
-		 * Тег для компонента
-		 * @type {string}
-		 */
-		componentTag() {
-			const hasTo = 'to' in this.$attrs;
-			const hasHref = 'href' in this.$attrs;
-
-			return this.tag ? this.tag : hasTo ? 'nuxt-link' : hasHref ? 'a' : 'button';
-		},
+	// eslint-disable-next-line vue/no-unused-properties
+	type: {
+		type: String,
+		default: 'button',
 	},
-};
+
+	styleType: {
+		type: String,
+		default: 'base',
+		validator: (value) =>
+			[
+				'base',
+				'primary',
+				'secondary',
+				'secondary-grey',
+				'black',
+				'white',
+				'gray',
+				'gray-bg',
+				'icon-sided-text',
+			].includes(value),
+	},
+
+	plain: {
+		type: Boolean,
+		default: false,
+	},
+	icon: {
+		type: Boolean,
+		default: false,
+	},
+	shadow: {
+		type: Boolean,
+		default: false,
+	},
+
+	iconLeft: {
+		type: Boolean,
+		default: false,
+	},
+
+	counter: {
+		type: Number,
+		default: 0,
+	},
+
+	loading: {
+		type: Boolean,
+		default: false,
+	},
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
+	readonly: {
+		type: Boolean,
+		default: false,
+	},
+	fullWidth: {
+		type: Boolean,
+		default: false,
+	},
+	tag: {
+		type: String,
+		default: null,
+	},
+});
+
+const classes = computed(() => {
+	const classes = {
+		button_plain: props.plain,
+		button_icon: props.icon,
+		button_shadow: props.shadow,
+
+		'button_icon-left': props.iconLeft,
+
+		'button_full-width': props.fullWidth,
+
+		'is-readonly': props.readonly || props.loading,
+		'is-disabled': props.disabled,
+	};
+	return [
+		classes,
+		`button_${props.size}`,
+		props.styleType ? `button_${props.styleType}` : '',
+	];
+});
+
+const componentTag = computed(() => {
+	const hasTo = 'to' in attrs;
+	const hasHref = 'href' in attrs;
+
+	return props.tag ? props.tag : hasTo ? 'nuxt-link' : hasHref ? 'a' : 'button';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -147,11 +140,12 @@ export default {
 	align-items: center;
 	width: 100%;
 	font-size: $font-size-base;
+	font-weight: 700;
 	line-height: $font-lh-base;
 	white-space: nowrap;
 	text-decoration: none;
-	border-radius: 10px;
-	padding: 10px 14px;
+	border-radius: 16px;
+	padding: 13px 14px;
 	cursor: pointer;
 	border: 1px solid $color-border;
 	color: $base-color;
@@ -160,7 +154,7 @@ export default {
 
 	&:hover:not(:disabled),
 	&:active:not(:disabled) {
-		border-color: $green;
+		border-color: $primary;
 	}
 
 	&:disabled {
@@ -170,12 +164,17 @@ export default {
 
 	&__counter,
 	&__text,
-	&__icon {
+	&__icon,
+	&__loader {
 		position: relative;
 	}
 
+	&__loader {
+		margin-right: 20px;
+	}
+
 	&__counter {
-		background-color: $green;
+		background-color: $primary;
 		color: $white;
 		padding: 0 5px;
 		margin-right: 5px;
@@ -200,8 +199,8 @@ export default {
 	}
 
 	&_primary {
-		background-color: $green;
-		border-color: $green;
+		background-color: $primary;
+		border-color: $primary;
 		color: $white;
 		transition: all $transition-duration;
 
@@ -212,25 +211,25 @@ export default {
 
 		&:active:not(:disabled),
 		&:hover:not(:disabled) {
-			background-color: #4ec88e;
-			border-color: #4ec88e;
+			background-color: $blue;
+			border-color: $blue;
 		}
 	}
 
 	&_secondary {
 		background-color: transparent;
-		border-color: $green;
-		color: $green;
+		border-color: $primary;
+		color: $primary;
 
 		&.nuxt-link-exact-active,
 		&.nuxt-link-active {
-			color: $green;
+			color: $primary;
 		}
 
 		&:hover:not(:disabled) {
 			background-color: transparent;
-			border-color: #4ec88e;
-			color: #4ec88e;
+			border-color: $blue;
+			color: $blue;
 		}
 
 		&:disabled {
@@ -267,8 +266,8 @@ export default {
 
 		&:hover:not(:disabled) {
 			background-color: transparent;
-			border-color: $green;
-			color: $green;
+			border-color: $primary;
+			color: $primary;
 		}
 	}
 
@@ -280,7 +279,7 @@ export default {
 		&:hover:not(:disabled) {
 			border-color: transparent;
 			background-color: #f1f1f1;
-			color: $green;
+			color: $primary;
 		}
 	}
 
@@ -291,8 +290,8 @@ export default {
 
 		&:hover:not(:disabled) {
 			background-color: transparent;
-			border-color: $green;
-			color: $green;
+			border-color: $primary;
+			color: $primary;
 		}
 	}
 
@@ -353,7 +352,7 @@ export default {
 
 	&_icon-sided-text:hover & {
 		&__icon {
-			border-color: $green;
+			border-color: $primary;
 		}
 	}
 

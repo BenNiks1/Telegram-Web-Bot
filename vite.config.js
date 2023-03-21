@@ -6,6 +6,9 @@ const env = loadEnv('develop', process.cwd());
 // https://vitejs.dev/config/
 export default {
 	plugins: [vue()],
+	test: {
+		include: ['**/*.test.{js,ts}']
+	},
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('./src', import.meta.url)),

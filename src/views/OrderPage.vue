@@ -94,7 +94,9 @@
 				<UiButton style-type="secondary" type="button" @click="isSubmit = false">
 					Назад
 				</UiButton>
-				<UiButton style-type="primary" type="submit">Подтвердить</UiButton>
+				<UiButton style-type="primary" type="submit" :loading="isLoading">
+					Подтвердить
+				</UiButton>
 
 				<p class="form__submit-description">
 					Нажимая на кнопку "Подтвердить" вы даете согалсие на обработку персональных
@@ -107,7 +109,7 @@
 
 <script setup>
 import { UiBreadcrumbs, UiButton, UiInput, CheckoutCard } from '@/components';
-import { ref, computed, inject } from 'vue';
+import { ref, shallowRef, computed, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { routes } from '@/helpers';
 import { postOrder } from '@/api';
@@ -118,7 +120,7 @@ const route = useRoute();
 const notification = inject('notification');
 
 const isSubmit = ref(false);
-
+const isLoading = ref(false);
 const phone = ref({ label: 'Телефон', value: null, isError: false });
 const name = ref({ label: 'Фамилия и Имя', value: null, isError: false });
 const optionalData = ref({
@@ -130,8 +132,8 @@ const optionalData = ref({
 	comment: { label: 'Комментарий', value: null },
 });
 
-const checkoutData = ref([]);
-const breadcrumbs = ref([
+const checkoutData = shallowRef([]);
+const breadcrumbs = shallowRef([
 	routes.main,
 	routes.dc,
 	routes.services,
@@ -144,7 +146,7 @@ const title = computed(() => (isSubmit.value ? 'Чек' : 'Заполните д
 const isDisabled = computed(() => {
 	// TODO: Кнопка не раздисейблится пока фокус не уйдёт с последнего инпута
 	// Нельзя нажать на кнопку сразу после заполнения данных
-	return !phone.value.value || !name.value.value;
+	return !phone.value || !name.value;
 });
 
 const onCheck = () => {
@@ -169,11 +171,15 @@ const submit = async () => {
 	};
 
 	try {
-		// await postOrder(data);
+		isLoading.value = true;
+		await postOrder(data);
 		router.push(routes.success.path);
 	} catch (error) {
 		console.error(error);
 		notification({ type: 'error' });
+		isLoading.value = false;
+	} finally {
+		isLoading.value = false;
 	}
 };
 
@@ -236,9 +242,9 @@ const isEmpty = (data) => {
 				}
 
 				input[type='radio']:checked + label {
-					background: $green;
+					background: $primary;
 					color: $white;
-					border-color: $green2;
+					border-color: $blue;
 				}
 			}
 		}

@@ -12,7 +12,11 @@
 			>
 				{{ item.name }}
 			</span>
-			<RouterLink v-else :to="item.path" class="breadcrumbs__link">
+			<RouterLink
+				v-else
+				:to="{ path: item.path, query: route.query }"
+				class="breadcrumbs__link"
+			>
 				{{ item.name }}
 			</RouterLink>
 		</div>
@@ -21,7 +25,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const nav = ref(null);
 

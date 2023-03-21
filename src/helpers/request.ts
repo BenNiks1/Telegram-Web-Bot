@@ -22,6 +22,6 @@ instance.interceptors.request.use(
 const serviceDecorator = (config: AxiosRequestConfig) =>
 	instance({ ...config, url: import.meta.env.VITE_POSTFIX_URL + config.url })
 		.then((res) => res)
-		.catch((error) => console.error(error));
+		.catch((error) => Promise.reject(error));
 
 export default serviceDecorator;

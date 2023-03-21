@@ -335,7 +335,7 @@ html {
 }
 
 body {
-	background-color: white;
+	background-color: $bg-color;
 	font-family: $font;
 	color: $base-color;
 	font: $font-base;
@@ -363,10 +363,6 @@ a:hover {
 	background-color: $shadow-color;
 }
 
-.green-text {
-	color: $green-dark;
-}
-
 .simple-btn {
 	width: 100%;
 	font-style: normal;
@@ -378,48 +374,48 @@ a:hover {
 	font-feature-settings: 'ss04' on;
 	border-radius: 16px;
 	padding: 15px 25px;
-	border: 1px solid $green;
-	color: $green;
+	border: 1px solid $primary;
+	color: $primary;
 	background-color: white;
 	transition: all 0.1s;
 
 	&:focus {
-		border-color: $green-dark;
-		color: $green-dark;
+		border-color: $primary-dark;
+		color: $primary-dark;
 	}
 
 	&:active {
-		background-color: $green-dark;
+		background-color: $primary-dark;
 		color: white;
 	}
 
 	&:disabled,
 	&:disabled:active {
 		background-color: white;
-		color: $green;
+		color: $primary;
 		cursor: default;
 		opacity: 0.5;
 	}
 
 	&_main {
 		color: white;
-		background-color: $green;
+		background-color: $primary;
 
 		&:not(:disabled):hover {
-			background-color: $green-light;
+			background-color: $blue;
 
 			&:active {
-				background-color: $green-dark;
+				background-color: $primary-dark;
 			}
 		}
 
 		&:focus {
-			background-color: $green-dark;
-			border-color: $green-dark;
+			background-color: $primary-dark;
+			border-color: $primary-dark;
 			color: white;
 
 			&:active {
-				background-color: $green-light;
+				background-color: $blue;
 				color: white;
 			}
 		}

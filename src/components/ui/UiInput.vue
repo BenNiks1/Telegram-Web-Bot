@@ -49,8 +49,9 @@ export default {
 	transition-property: border-color;
 
 	&__label {
-		font-size: 12px;
-		line-height: 14px;
+		font-size: 14px;
+		line-height: 16px;
+		font-weight: 700;
 		color: rgba($base-color, 0.5);
 		display: block;
 		margin-bottom: 8px;
@@ -75,7 +76,7 @@ export default {
 		}
 
 		&:hover {
-			border-color: rgba($green, 0.5);
+			border-color: rgba($primary, 0.5);
 		}
 	}
 
@@ -90,13 +91,13 @@ export default {
 		font-family: $font;
 		font-size: $font-size-base;
 		line-height: $font-lh-base;
-		font-weight: 500;
+		font-weight: 700;
 		flex: 1 1 auto;
 		padding: 14px 20px;
 		border-radius: 16px;
 		max-width: 100%;
 		width: 100%;
-		background-color: $white;
+		background-color: $input-bg;
 		position: relative;
 		z-index: 3;
 		color: $base-color;

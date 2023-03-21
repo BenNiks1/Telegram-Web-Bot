@@ -1,0 +1,56 @@
+image: alpine:latest
+stages:
+  - deploy
+  - test_install
+  - tests
+  - rebuild_image
+  - start_container
+
+before_script:
+  - mkdir -p ~/.ssh
+  - echo "$SSH_RSA" >> ~/.ssh/id_dsa
+  - chmod 600 ~/.ssh/id_dsa
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+deploy:
+  stage: deploy
+  script:
+    - ssh rabbit@"$HOST_ADDRESS" "echo VITE_SENTRY_DSN=$VITE_SENTRY_DSN > /home/rabbit/sto-web-bot/.env"
+    - ssh rabbit@"$HOST_ADDRESS" "echo VITE_API_URL=$VITE_API_URL >> /home/rabbit/sto-web-bot/.env"
+    - ssh rabbit@"$HOST_ADDRESS" "echo VITE_POSTFIX_URL=$VITE_POSTFIX_URL >> /home/rabbit/sto-web-bot/.env"
+    - ssh rabbit@"$HOST_ADDRESS" "cd /home/rabbit/sto-web-bot && git switch stage && git pull https://stage:$GIT_TOKEN@git.freshauto.ru/freshauto-site-team/sto-web-bot.git stage"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "stage"'
+
+test_install:
+  stage: test_install
+  script:
+    - echo "Remove node_modules and install dependencies"
+    - ssh rabbit@"$HOST_ADDRESS" "cd /home/rabbit/sto-web-bot && npm ci"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "stage"'
+
+tests:
+  stage: tests
+  script:
+    - ssh rabbit@"$HOST_ADDRESS" "cd /home/rabbit/sto-web-bot && npm test"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "stage"'
+
+rebuild_image:
+  stage: rebuild_image
+  script:
+    - echo "Stop and remove image and container"
+    - ssh rabbit@"$HOST_ADDRESS" "docker stop sto-front-app && docker rm sto-front-app -f && docker rmi sto-frontend -f"
+    - echo "Build new image"
+    - ssh rabbit@"$HOST_ADDRESS" "cd /home/rabbit/sto-web-bot && docker build -t sto-frontend ./"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "stage"'
+
+start_container:
+  stage: start_container
+  script:
+    - echo "Run container by image"
+    - ssh rabbit@"$HOST_ADDRESS" "cd /home/rabbit/sto-web-bot && docker run -d -p 8082:8082 --name sto-front-app sto-frontend"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "stage"'

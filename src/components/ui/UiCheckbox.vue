@@ -70,8 +70,8 @@ const check = (optionId) => {
 		}
 		&:checked {
 			color: $white;
-			border-color: $green;
-			background: $green;
+			border-color: $primary;
+			background: $primary;
 			&::before {
 				opacity: 1;
 			}

@@ -1,6 +1,6 @@
 <template>
 	<div class="profile">
-		<div class="profile__header">
+		<div v-if="!isSkipMaster" class="profile__header">
 			<InlineSvg class="header__image" src="/static/svg/profile.svg" />
 			<div class="header__content">
 				<p class="header__content-name">{{ name }}</p>
@@ -10,6 +10,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="profile__content">
 			Ближайшее время для записи:
 			<div class="profile__slots">
@@ -18,7 +19,7 @@
 					:key="index"
 					class="profile__slots-button"
 					style-type="secondary"
-					@click="emit('set-slot', { time: slot, master_id: profileId, name })"
+					@click="emit('set-slot', { time: slot, master_id: master.id, name })"
 				>
 					{{ slot }}
 				</UiButton>
@@ -31,22 +32,27 @@
 import InlineSvg from 'vue-inline-svg';
 import StarRating from 'vue-star-rating';
 import { UiButton } from '@/components';
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
 	// img: { type: String, default: '' },
-	profileId: { type: Number, default: null },
-	name: { type: String, default: 'userName' },
+	master: { type: Object, required: true },
+	isSkipMaster: { type: Boolean, default: false },
+	firstName: { type: String, default: 'name' },
+	lasttName: { type: String, default: 'surname' },
 	grade: { type: Number, default: 0 },
 	gradeCount: { type: Number, default: 0 },
 	slots: { type: Array, default: () => [] },
 });
 
 const emit = defineEmits(['set-slot']);
+
+const name = computed(() => `${props.firstName} ${props.lasttName}`);
 </script>
 
 <style lang="scss" scoped>
 .profile {
-	position: relative;
+	font-weight: 700;
 
 	&__header {
 		display: flex;
@@ -60,7 +66,6 @@ const emit = defineEmits(['set-slot']);
 				height: 60px;
 				border-radius: 50%;
 				background: $white;
-				z-index: 1;
 			}
 
 			&__content {
@@ -86,7 +91,7 @@ const emit = defineEmits(['set-slot']);
 	&__content {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap: 15px;
 	}
 
 	&__slots {
@@ -98,6 +103,7 @@ const emit = defineEmits(['set-slot']);
 			max-width: 57px;
 			max-height: 35px;
 			font-size: 15px;
+			border-radius: 10px;
 		}
 	}
 }

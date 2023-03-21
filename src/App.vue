@@ -11,6 +11,7 @@ import { RouterView } from 'vue-router';
 import { onMounted } from 'vue';
 import TheHeader from '@/layout/TheHeader.vue';
 import { UiNotification } from '@/components';
+import { useHead } from '@vueuse/head';
 
 const tg = window?.Telegram?.WebApp;
 
@@ -19,6 +20,10 @@ onMounted(async () => {
 		tg.expand();
 		tg.enableClosingConfirmation();
 	}
+});
+
+useHead({
+	title: 'FRESH | Сервис',
 });
 </script>
 

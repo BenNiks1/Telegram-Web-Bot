@@ -1,7 +1,7 @@
 <template>
 	<section class="dc">
 		<UiBreadcrumbs :items="breadcrumbs" />
-		<div class="dc__inner">
+		<div v-if="!isLoading" class="dc__inner">
 			<h1 class="title">Выберите сервисный центр</h1>
 
 			<UiAccordion
@@ -24,34 +24,40 @@
 				</div>
 			</UiAccordion>
 		</div>
+		<UiLoader v-else />
 	</section>
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from 'vue';
+import { ref, shallowRef, inject, onMounted } from 'vue';
 import { getDCList } from '@/api';
-import { UiBreadcrumbs, UiAccordion } from '@/components';
+import { UiBreadcrumbs, UiAccordion, UiLoader } from '@/components';
 import { routes } from '@/helpers';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import DC_MOCK from '@/mock/dc.json';
 
 const notification = inject('notification');
 
+const isLoading = ref(false);
 const serviceList = ref({});
-const breadcrumbs = ref([routes.main, routes.dc]);
+const breadcrumbs = shallowRef([routes.main, routes.dc]);
 
 const router = useRouter();
 const store = useStore();
 
 onMounted(async () => {
 	try {
-		// const { data: res } = await getDCList();
+		isLoading.value = true;
 
-		sortServices(DC_MOCK, 'city');
+		const { data: res } = await getDCList();
+
+		sortServices(res.data, 'city');
 	} catch (err) {
 		console.error(err);
 		notification({ type: 'error' });
+		isLoading.value = false;
+	} finally {
+		isLoading.value = false;
 	}
 });
 
@@ -73,7 +79,7 @@ const nextPage = (service) => {
 
 <style lang="scss" scoped>
 .dc {
-	height: 100%;
+	padding-bottom: 30px;
 
 	&__title {
 		margin: 10px 0;

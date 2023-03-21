@@ -4,39 +4,37 @@
 		<div class="services__inner">
 			<h1 class="title">{{ title }}</h1>
 
-			<ul v-if="!showServices" class="type-list">
-				<li class="type-list__item" @click="showServices = true">
+			<div v-if="!showServices" class="type-list">
+				<UiButton class="type-list__item" @click="showServices = true">
 					Обслуживание и ремонт автомобиля
-				</li>
-				<li class="type-list__item">Кузовные работы и покраска</li>
-				<li class="type-list__item">Диагностика авто перед покупкой</li>
-			</ul>
+				</UiButton>
+				<UiButton class="type-list__item">Кузовные работы и покраска</UiButton>
+				<UiButton class="type-list__item">Диагностика авто перед покупкой</UiButton>
+			</div>
 
-			<div v-else class="services__list">
+			<div v-else-if="!isLoading" class="services__list">
 				<UiAccordion
-					v-for="([type, services], index) in Object.entries(formatedServices)"
+					v-for="([serviceType, services], index) in Object.entries(formatedServices)"
 					:key="index"
 					class="services-accordion"
-					:summary="type"
+					:summary="serviceType"
 					:count="`${services.length} ${numWord(services.length, numWords)}`"
 				>
-					<div
+					<UiCheckbox
 						v-for="service in services"
 						:key="service.id"
-						class="services-accordion__content"
+						v-model:checked="serviceIds"
+						:value="serviceIds"
+						:field-id="service.id"
 					>
-						<UiCheckbox
-							v-model:checked="serviceIds"
-							:value="serviceIds"
-							:field-id="service.id"
-						>
+						<div class="services-accordion__content">
 							<b>{{ service.name }}</b>
 							<p>
 								<b>Цена:</b>
 								{{ formatNums(service.price) }}
 							</p>
-						</UiCheckbox>
-					</div>
+						</div>
+					</UiCheckbox>
 				</UiAccordion>
 
 				<div class="services__button" :class="{ active: serviceIds.length }">
@@ -49,18 +47,18 @@
 					</UiButton>
 				</div>
 			</div>
+			<UiLoader v-else />
 		</div>
 	</section>
 </template>
 
 <script setup>
-import { ref, computed, inject, onMounted } from 'vue';
+import { ref, shallowRef, computed, inject, onMounted } from 'vue';
 import { getServicesList } from '@/api';
-import { UiBreadcrumbs, UiCheckbox, UiAccordion, UiButton } from '@/components';
+import { UiBreadcrumbs, UiCheckbox, UiAccordion, UiButton, UiLoader } from '@/components';
 import { routes, numWord, formatNums } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import SERVICES_MOCK from '@/mock/services.json';
 
 const router = useRouter();
 const route = useRoute();
@@ -68,12 +66,13 @@ const store = useStore();
 
 const notification = inject('notification');
 
+const isLoading = ref(false);
+const showServices = ref(false);
 const serviceIds = ref([]);
 const formatedServices = ref({});
 const servicesList = ref([]);
-const showServices = ref(false);
-const numWords = ref(['услуга', 'услуги', 'услуг']);
-const breadcrumbs = ref([routes.main, routes.dc, routes.services]);
+const numWords = shallowRef(['услуга', 'услуги', 'услуг']);
+const breadcrumbs = shallowRef([routes.main, routes.dc, routes.services]);
 
 const title = computed(() =>
 	showServices.value ? 'Выберите услугу' : 'Что вас интересует?'
@@ -81,12 +80,16 @@ const title = computed(() =>
 
 onMounted(async () => {
 	try {
-		// const { data: res } = await getServicesList();
-		servicesList.value = SERVICES_MOCK;
-		sortServices(SERVICES_MOCK, 'type');
+		isLoading.value = true;
+		const { data: res } = await getServicesList();
+		servicesList.value = res.data;
+		sortServices(res.data, 'type');
 	} catch (err) {
 		console.error(err);
 		notification({ type: 'error' });
+		isLoading.value = false;
+	} finally {
+		isLoading.value = false;
 	}
 });
 
@@ -142,21 +145,15 @@ const nextPage = () => {
 		z-index: 1;
 
 		&__item {
-			box-sizing: border-box;
-			text-align: center;
-			width: 100%;
 			padding: 20px;
 			background-color: $white;
-			box-shadow: 0 0 10px 4px $shadow-color;
 			border-radius: 10px;
-			border: 1px solid #ebebeb;
 			transition: 0.3s;
 
 			&:active {
-				background-color: $green;
-				border-color: $green;
+				background-color: $primary;
+				border-color: $primary;
 				color: $white;
-				transition: all $transition-duration;
 			}
 		}
 	}

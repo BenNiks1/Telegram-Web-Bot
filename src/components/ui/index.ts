@@ -6,6 +6,7 @@ import UiCheckbox from './UiCheckbox.vue';
 import UiDelimiter from './UiDelimiter.vue';
 import UiAccordion from './UiAccordion.vue';
 import UiNotification from './UiNotification.vue';
+import UiLoader from './UiLoader.vue';
 
 export {
 	UiBreadcrumbs,
@@ -16,4 +17,5 @@ export {
 	UiDelimiter,
 	UiAccordion,
 	UiNotification,
+	UiLoader,
 };

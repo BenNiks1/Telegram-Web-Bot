@@ -1,6 +1,6 @@
 // fonts
-$font: 'Aeroport', sans-serif;
-$heading-font: 'Aeroport', sans-serif;
+$font: 'Mulish';
+$heading-font: 'Mulish';
 $font-size-tabs: 13px;
 $font-size-base: 16px;
 $font-lh-base: 20px;
@@ -47,7 +47,14 @@ $accent-font: $accent-font-style $accent-font-weight #{$accent-font-size} / #{$a
 	$font;
 
 // colors
-$base-color: #11152c;
+$primary: #003dff;
+$primary-dark: #0034df;
+$bg-color: #e4e9f2;
+$accesnt-color: #f96219;
+$disabled: #89909c;
+$input-bg: #f3f6fa;
+
+$base-color: #292d34;
 $base-light: rgba(17, 21, 44, 0.3);
 $black: #000;
 $black-light: #707070;

@@ -45,7 +45,7 @@
 
 					<div class="check-wrapper total-price">
 						<dt>Итого</dt>
-						<dd class="green">
+						<dd class="primary">
 							{{ formatNums(totalPrice) }}
 						</dd>
 					</div>
@@ -107,14 +107,15 @@ const totalPrice = computed(() =>
 				white-space: nowrap;
 				color: $base-color;
 
-				.green {
-					color: $green;
+				.primary {
+					color: $primary;
 				}
 			}
 		}
 
 		&-data {
 			font-size: 15px;
+			font-weight: 700;
 			line-height: 20px;
 			letter-spacing: -0.01em;
 			color: $base-color;

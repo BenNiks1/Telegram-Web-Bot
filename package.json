@@ -13,12 +13,12 @@
 		"format": "prettier --write **/*.{scss,vue,ts,js}"
 	},
 	"dependencies": {
+		"@vueuse/head": "^1.1.23",
 		"axios": "^1.2.0-alpha.1",
 		"register-service-worker": "^1.7.2",
 		"v-calendar": "^3.0.0-alpha.8",
 		"vue": "^3.2.47",
 		"vue-inline-svg": "^3.1.2",
-		"vue-meta": "^2.4.0",
 		"vue-router": "^4.1.6",
 		"vue-star-rating": "^2.1.0",
 		"vuex": "^4.0.2"

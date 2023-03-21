@@ -1,9 +1,8 @@
 <template>
 	<section class="calendar">
 		<UiBreadcrumbs :items="breadcrumbs" />
-		<div class="calendar__inner">
+		<div v-show="!isLoading" class="calendar__inner">
 			<h1 class="title">Выберите дату и время:</h1>
-
 			<DatePicker
 				v-model="date"
 				mode="date"
@@ -23,12 +22,13 @@
 				Выбрать эту дату
 			</UiButton>
 		</div>
+		<UiLoader v-show="isLoading" />
 	</section>
 </template>
 
 <script setup>
-import { UiBreadcrumbs, UiButton } from '@/components';
-import { ref, inject } from 'vue';
+import { UiBreadcrumbs, UiButton, UiLoader } from '@/components';
+import { ref, shallowRef, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { routes, formatDate } from '@/helpers';
@@ -41,16 +41,34 @@ const store = useStore();
 const notification = inject('notification');
 
 const date = ref(null);
-const availableDates = ref([]);
-const breadcrumbs = ref([routes.main, routes.dc, routes.services, routes.calendar]);
+const isLoading = ref(false);
+const availableDates = shallowRef([]);
+const breadcrumbs = shallowRef([
+	routes.main,
+	routes.dc,
+	routes.services,
+	routes.calendar,
+]);
+
+const dateOptions = {
+	year: 'numeric',
+	month: 'numeric',
+	day: 'numeric',
+};
 
 const getAvailableDates = async (params) => {
 	try {
-		// const { data: res } = await getDates(params);
-		// availableDates.value = res.data;
+		isLoading.value = true;
+		// TODO: Сделать логику пропуска выбора даты
+		const { data: res } = await getDates(params);
+
+		availableDates.value = res.data;
 	} catch (error) {
 		console.error(error);
 		notification({ type: 'error' });
+		isLoading.value = false;
+	} finally {
+		isLoading.value = false;
 	}
 };
 
@@ -68,17 +86,14 @@ const getMonth = (month) => {
 };
 
 const nextStep = () => {
-	store.commit('SET_DATE', date.value);
+	store.commit('SET_DATE', formatDate(date.value, dateOptions));
 
-	const options = {
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric',
-		locales: 'fr-ca',
-	};
 	router.push({
 		path: routes.slots.path,
-		query: { ...route.query, date: formatDate(date.value, options) },
+		query: {
+			...route.query,
+			date: formatDate(date.value, { dateOptions, locales: 'fr-ca' }),
+		},
 	});
 };
 </script>
@@ -106,7 +121,6 @@ const nextStep = () => {
 		left: 50%;
 		transform: translateX(-50%);
 		width: calc(100vw - 40px);
-		height: 42px;
 		margin-bottom: 25px;
 		align-self: end;
 	}
