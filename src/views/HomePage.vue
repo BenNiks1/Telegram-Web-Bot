@@ -38,8 +38,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-const token = ref('i0h9eudl2bamushm');
-const terminalkey = ref('1675421001484DEMO');
+const token = ref('v0lf5pihbd9s0r8t');
+const terminalkey = ref('1675421001484');
 const amount = ref(100);
 
 onMounted(() => {
