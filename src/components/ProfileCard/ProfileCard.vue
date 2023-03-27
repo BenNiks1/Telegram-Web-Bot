@@ -1,7 +1,7 @@
 <template>
 	<div class="profile">
 		<div v-if="!isSkipMaster" class="profile__header">
-			<InlineSvg class="header__image" src="/static/svg/profile.svg" />
+			<InlineSvg class="header__image" src="/static/svg/profile.svg" aria-label="Portrait icon"/>
 			<div class="header__content">
 				<p class="header__content-name">{{ name }}</p>
 				<div class="header__content-rating">

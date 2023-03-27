@@ -22,12 +22,6 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/views/ServicesPage.vue'),
 	},
 
-	{
-		path: '/tinkoffPay',
-		name: 'tinkoffPay',
-		component: () => import('@/views/TinkPay.vue'),
-	},
-
 	//  Календарь
 	{
 		path: '/calendar',

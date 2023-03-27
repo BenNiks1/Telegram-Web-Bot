@@ -79,9 +79,11 @@ const title = computed(() =>
 );
 
 onMounted(async () => {
+	const city = route.query.city;
+
 	try {
 		isLoading.value = true;
-		const { data: res } = await getServicesList();
+		const { data: res } = await getServicesList({ city });
 		servicesList.value = res.data;
 		sortServices(res.data, 'type');
 	} catch (err) {

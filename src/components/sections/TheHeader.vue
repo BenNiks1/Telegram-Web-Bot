@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
-		<RouterLink to="/">
-			<InlineSvg class="header__logo" src="/static/svg/new_logo.svg" />
+		<RouterLink to="/" title="FRESH">
+			<InlineSvg class="header__logo" src="/static/svg/new_logo.svg" aria-label="The fresh logo" />
 		</RouterLink>
 	</header>
 </template>

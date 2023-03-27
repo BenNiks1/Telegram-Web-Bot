@@ -2,6 +2,7 @@
 	<component
 		:is="componentTag"
 		v-bind="attrs"
+		:type="type"
 		:disabled="disabled || loading"
 		:class="['button', classes]"
 	>
@@ -127,7 +128,7 @@ const componentTag = computed(() => {
 	const hasTo = 'to' in attrs;
 	const hasHref = 'href' in attrs;
 
-	return props.tag ? props.tag : hasTo ? 'nuxt-link' : hasHref ? 'a' : 'button';
+	return props.tag ? props.tag : hasTo ? 'router-link' : hasHref ? 'a' : 'button';
 });
 </script>
 

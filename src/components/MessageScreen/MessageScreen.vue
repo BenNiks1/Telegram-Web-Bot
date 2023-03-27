@@ -1,10 +1,11 @@
 <template>
-	<div class="empty-list">
+	<div class="message-screen">
 		<InlineSvg
-			class="empty-list__icon"
+			class="message-screen__icon"
 			width="50"
 			height="50"
 			src="/static/svg/warning.svg"
+			aria-label="Warning!"
 		/>
 
 		<slot />
@@ -16,7 +17,7 @@ import InlineSvg from 'vue-inline-svg';
 </script>
 
 <style lang="scss" scoped>
-.empty-list {
+.message-screen {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

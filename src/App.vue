@@ -9,8 +9,7 @@
 <script setup>
 import { RouterView } from 'vue-router';
 import { onMounted } from 'vue';
-import TheHeader from '@/layout/TheHeader.vue';
-import { UiNotification } from '@/components';
+import { UiNotification, TheHeader } from '@/components';
 import { useHead } from '@vueuse/head';
 
 const tg = window?.Telegram?.WebApp;
@@ -24,6 +23,9 @@ onMounted(async () => {
 
 useHead({
 	title: 'FRESH | Сервис',
+	htmlAttrs: {
+		lang: 'ru'
+	},
 });
 </script>
 

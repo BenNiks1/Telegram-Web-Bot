@@ -9,19 +9,22 @@
 				:key="index"
 				:summary="city"
 			>
-				<div
+				<button
 					v-for="service in services"
 					:key="service.id"
 					class="dc-accordion__content"
+					:href="service.id"
 					@click="() => nextPage(service)"
 				>
-					<b>{{ service.city }} - {{ service.name }}</b>
-					<p>Адрес: {{ service.address || '-' }}</p>
+					<b>{{ service.name }}</b>
+					<address>Адрес: {{ service.address || '-' }}</address>
 					<p>
-						Часы работы с {{ service.work_time_start }} до
-						{{ service.work_time_end }}
+						Часы работы с
+						<time :datetime="service.work_time_start">{{ service.work_time_start }}</time>
+						до
+						<time :datetime="service.work_time_end">{{ service.work_time_end }}</time>
 					</p>
-				</div>
+				</button>
 			</UiAccordion>
 		</div>
 		<UiLoader v-else />
@@ -73,7 +76,10 @@ const sortServices = (list, sortBy) => {
 const nextPage = (service) => {
 	store.commit('SET_DC', service);
 
-	router.push({ path: routes.services.path, query: { dealer_id: service.id } });
+	router.push({
+		path: routes.services.path,
+		query: { dealer_id: service.id, city: service.city },
+	});
 };
 </script>
 
@@ -90,6 +96,7 @@ const nextPage = (service) => {
 
 	&-accordion {
 		&__content {
+			text-align: start;
 			&:not(:last-child) {
 				padding: 10px 0;
 				border-bottom: 1px solid $color-border;

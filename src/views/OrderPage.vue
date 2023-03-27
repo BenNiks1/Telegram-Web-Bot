@@ -2,77 +2,85 @@
 	<section class="order">
 		<UiBreadcrumbs :items="breadcrumbs" />
 
-		<form class="form" @submit.prevent="submit">
+		<form v-if="!isError" class="form" @submit.prevent="onCheck">
 			<div class="form__section">
 				<h2 class="title">{{ title }}</h2>
 				<div v-if="!isSubmit" class="form__user-data">
 					<UiInput
 						id="name"
-						v-model="name.value"
+						v-model="formData.name.value"
 						placeholder="Иванова Анастасия"
-						:label="name.label"
+						:label="formData.name.label"
 						type="text"
 						name="name"
+						:is-error="!!errors.name"
+						:text-error="errors?.name"
 						required
 					/>
 
 					<UiInput
 						id="phone"
-						v-model="phone.value"
+						v-model="formData.phone.value"
+						v-maska="phoneMask"
 						placeholder="+7 (999) 888 77 66"
-						:label="phone.label"
+						:label="formData.phone.label"
 						type="text"
 						name="phone"
+						:is-error="!!errors.phone"
+						:text-error="errors?.phone"
 						required
 					/>
 
 					<UiInput
 						id="mark"
-						v-model="optionalData.mark.value"
+						v-model="formData.mark.value"
 						placeholder="Renault"
-						:label="optionalData.mark.label"
+						:label="formData.mark.label"
 						type="text"
 						name="mark"
+						:is-error="!!errors.mark"
+						:text-error="errors?.mark"
 					/>
 					<UiInput
 						id="model"
-						v-model="optionalData.model.value"
+						v-model="formData.model.value"
 						placeholder="Logan"
-						:label="optionalData.model.label"
+						:label="formData.model.label"
 						type="text"
 						name="model"
+						:is-error="!!errors.model"
+						:text-error="errors?.model"
 					/>
 					<UiInput
 						id="carYear"
-						v-model="optionalData.carYear.value"
+						v-model="formData.carYear.value"
 						placeholder="2020"
-						:label="optionalData.carYear.label"
+						:label="formData.carYear.label"
 						type="number"
 						name="carYear"
+						:is-error="!!errors.carYear"
+						:text-error="errors?.carYear"
 					/>
 					<UiInput
 						id="carNumber"
-						v-model="optionalData.carNumber.value"
+						v-model="formData.carNumber.value"
+						v-maska="gosNumberMask"
 						placeholder="A123АA456"
-						:label="optionalData.carNumber.label"
+						:label="formData.carNumber.label"
 						type="text"
 						name="carNumber"
+						:is-error="!!errors.carNumber"
+						:text-error="errors?.carNumber"
 					/>
 					<UiInput
 						id="carMileage"
-						v-model="optionalData.carMileage.value"
+						v-model="formData.carMileage.value"
 						placeholder="120000"
-						:label="optionalData.carMileage.label"
+						:label="formData.carMileage.label"
 						type="number"
 						name="carMileage"
-					/>
-					<UiInput
-						id="comment"
-						v-model="optionalData.comment.value"
-						placeholder="Комментарий"
-						:label="optionalData.comment.label"
-						type="text"
-						name="comment"
+						:is-error="!!errors.carMileage"
+						:text-error="errors?.carMileage"
 					/>
 				</div>
 
@@ -80,12 +88,7 @@
 			</div>
 
 			<div v-if="!isSubmit" class="form__check">
-				<UiButton
-					style-type="primary"
-					type="button"
-					:disabled="isDisabled"
-					@click="onCheck"
-				>
+				<UiButton style-type="primary" type="submit" @click="onCheck">
 					Продолжить
 				</UiButton>
 			</div>
@@ -94,7 +97,12 @@
 				<UiButton style-type="secondary" type="button" @click="isSubmit = false">
 					Назад
 				</UiButton>
-				<UiButton style-type="primary" type="submit" :loading="isLoading">
+				<UiButton
+					style-type="primary"
+					type="button"
+					:loading="isLoading"
+					@click.prevent="submit"
+				>
 					Подтвердить
 				</UiButton>
 
@@ -104,14 +112,32 @@
 				</p>
 			</div>
 		</form>
+
+		<MessageScreen v-else class="form__error">
+			<p>К сожалению на данное время выбранный мастер уже занят.</p>
+			<UiButton
+				style-type="secondary"
+				type="button"
+				:to="{ path: routes.calendar.path, query: route.query }"
+			>
+				Назад
+			</UiButton>
+		</MessageScreen>
 	</section>
 </template>
 
 <script setup>
-import { UiBreadcrumbs, UiButton, UiInput, CheckoutCard } from '@/components';
+import {
+	UiBreadcrumbs,
+	UiButton,
+	UiInput,
+	CheckoutCard,
+	MessageScreen,
+} from '@/components';
 import { ref, shallowRef, computed, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { routes } from '@/helpers';
+import { routes, phoneMask, gosNumberMask, yearRegex } from '@/helpers';
+
 import { postOrder } from '@/api';
 
 const router = useRouter();
@@ -121,16 +147,18 @@ const notification = inject('notification');
 
 const isSubmit = ref(false);
 const isLoading = ref(false);
-const phone = ref({ label: 'Телефон', value: null, isError: false });
-const name = ref({ label: 'Фамилия и Имя', value: null, isError: false });
-const optionalData = ref({
+const isError = ref(false);
+
+const formData = ref({
+	phone: { label: 'Телефон', value: null },
+	name: { label: 'Фамилия и Имя', value: null },
 	mark: { label: 'Марка авто', value: null },
 	model: { label: 'Модель авто', value: null },
 	carYear: { label: 'Год выпуска', value: null },
 	carNumber: { label: 'Госномер авто', value: null },
 	carMileage: { label: 'Пробег, км', value: null },
-	comment: { label: 'Комментарий', value: null },
 });
+const errors = ref({});
 
 const checkoutData = shallowRef([]);
 const breadcrumbs = shallowRef([
@@ -143,29 +171,17 @@ const breadcrumbs = shallowRef([
 ]);
 
 const title = computed(() => (isSubmit.value ? 'Чек' : 'Заполните данные'));
-const isDisabled = computed(() => {
-	// TODO: Кнопка не раздисейблится пока фокус не уйдёт с последнего инпута
-	// Нельзя нажать на кнопку сразу после заполнения данных
-	return !phone.value || !name.value;
-});
-
-const onCheck = () => {
-	checkoutData.value = [phone.value, name.value, ...isEmpty(optionalData.value)];
-
-	isSubmit.value = true;
-};
 
 const submit = async () => {
-	const { mark, model, carYear, carNumber, carMileage, comment } = optionalData.value;
+	const { name, phone, mark, model, carYear, carNumber, carMileage } = formData.value;
 	const data = {
-		client_name: name.value.value,
-		client_phone: phone.value.value,
+		client_name: name.value,
+		client_phone: phone.value?.replace(/[\D]/g, ''),
 		car_mark: mark.value,
 		car_model: model.value,
 		car_year: carYear.value,
 		car_number: carNumber.value,
 		car_mileage: carMileage.value,
-		comment: comment.value,
 		services: [...route.query.services],
 		...route.query,
 	};
@@ -175,8 +191,12 @@ const submit = async () => {
 		await postOrder(data);
 		router.push(routes.success.path);
 	} catch (error) {
-		console.error(error);
-		notification({ type: 'error' });
+		if (error.response.status === 409) isError.value = true;
+		else {
+			console.error(error);
+			notification({ type: 'error' });
+		}
+
 		isLoading.value = false;
 	} finally {
 		isLoading.value = false;
@@ -188,6 +208,38 @@ const isEmpty = (data) => {
 		.map(([, value]) => value.value?.length && value)
 		.filter((x) => x);
 };
+
+const onCheck = () => {
+	if (validate(formData.value)) {
+		checkoutData.value = [...isEmpty(formData.value)];
+		isSubmit.value = true;
+	} else notification({ type: 'error', message: 'Некорректно заполненая форма' });
+};
+
+const validate = (data) => {
+	const { name, phone, carYear } = data;
+
+	errors.value = {};
+	if (!name.value) {
+		errors.value.name = 'ФИО является обязательным полем';
+	}
+
+	if (!phone.value) {
+		errors.value.phone = 'Телефон является обязательным полем';
+	} else if (phone.value.length < 11) {
+		errors.value.phone = 'Телефон должен быть не менее 11 символов';
+	}
+
+	if (carYear.value && !yearRegex.test(carYear.value)) {
+		errors.value.carYear = 'Некорректно указанный год';
+	}
+
+	if (Object.keys(errors.value).length > 0) {
+		return false;
+	}
+
+	return true;
+};
 </script>
 
 <style lang="scss">
@@ -196,6 +248,10 @@ const isEmpty = (data) => {
 		display: grid;
 		grid-template-rows: 1fr minmax(100px, max-content);
 		height: 100%;
+
+		&__error {
+			margin: 30px 0;
+		}
 
 		&__title {
 			font-size: 16px;
@@ -213,7 +269,7 @@ const isEmpty = (data) => {
 		&__user-data {
 			display: flex;
 			flex-direction: column;
-			gap: 10px;
+			gap: 20px;
 		}
 
 		&__radio-buttons {
@@ -233,12 +289,20 @@ const isEmpty = (data) => {
 					padding: 10px 14px;
 					border-radius: 10px;
 					cursor: pointer;
+					color: $base-color;
 					box-shadow: 0 2px 5px 0 rgb(151 165 193 / 20%),
 						0 2px 10px 0 rgb(151 165 193 / 20%);
 				}
 
 				input[type='radio'] {
-					display: none;
+					position: absolute !important;
+					clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+					clip: rect(1px, 1px, 1px, 1px);
+					padding:0 !important;
+					border:0 !important;
+					height: 1px !important;
+					width: 1px !important;
+					overflow: hidden;
 				}
 
 				input[type='radio']:checked + label {
@@ -261,7 +325,7 @@ const isEmpty = (data) => {
 
 			&-description {
 				font-size: 12px;
-				color: #a0a0a0;
+				color: rgba($base-color, .8);
 				text-align: center;
 			}
 		}

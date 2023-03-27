@@ -26,7 +26,7 @@ const props = defineProps({
 });
 
 const check = (optionId) => {
-	let updatedValue = [...props.value];
+	const updatedValue = [...props.value];
 	if (!props.value.includes(optionId)) {
 		updatedValue.push(optionId);
 	} else {
@@ -51,7 +51,6 @@ const check = (optionId) => {
 		border: 1px solid $color-border;
 		border-radius: 4px;
 		appearance: none;
-		outline: 0;
 		cursor: pointer;
 		transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
 		&::before {

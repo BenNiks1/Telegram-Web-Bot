@@ -1,7 +1,7 @@
 <template>
 	<section class="success">
 		<div class="success__inner">
-			<InlineSvg class="success-icon" src="/static/svg/diagnostics.svg" />
+			<InlineSvg class="success-icon" src="/static/svg/diagnostics.svg" aria-label="Just icon"/>
 			<h1 class="success__title">Ваша заявка отправлена!</h1>
 			<p class="success__description">
 				Сейчас мы все проверим, а после пришлем вам подтверждение записи в СМС.

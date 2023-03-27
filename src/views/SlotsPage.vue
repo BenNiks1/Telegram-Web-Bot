@@ -28,13 +28,13 @@
 			</ul>
 		</div>
 
-		<EmptyList v-else-if="!isLoading && !masters?.length" class="slots-empty">
+		<MessageScreen v-else-if="!isLoading && !masters?.length" class="slots-empty">
 			<p>
 				К сожалению на данную дату свободных мастеров нет. Пожалуйста, выберите другую
 				дату.
 			</p>
 			<UiButton style-type="secondary" type="button" @click="prevPage">Назад</UiButton>
-		</EmptyList>
+		</MessageScreen>
 
 		<UiLoader v-else />
 	</section>
@@ -43,7 +43,13 @@
 <script setup>
 import { ref, inject, computed, shallowRef, onMounted } from 'vue';
 import { getSlotsList } from '@/api';
-import { UiBreadcrumbs, ProfileCard, EmptyList, UiLoader, UiButton } from '@/components';
+import {
+	UiBreadcrumbs,
+	ProfileCard,
+	MessageScreen,
+	UiLoader,
+	UiButton,
+} from '@/components';
 import { routes } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';

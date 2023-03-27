@@ -7,6 +7,8 @@
 				v-model="date"
 				mode="date"
 				:available-dates="availableDates"
+				:disabled-dates="disabledDates"
+				:min-date="minDate"
 				is-expanded
 				title-position="right"
 				locale="ru"
@@ -62,6 +64,7 @@ const getAvailableDates = async (params) => {
 		// TODO: Сделать логику пропуска выбора даты
 		const { data: res } = await getDates(params);
 
+		if(!res.data?.length) notification({ tyoe: 'error', message: 'К сожалению свободных дат нет, выберите другой месяц или услугу'})
 		availableDates.value = res.data;
 	} catch (error) {
 		console.error(error);
@@ -84,6 +87,9 @@ const onChange = (e) => {
 const getMonth = (month) => {
 	return month < 10 ? '0' + month : month;
 };
+
+const minDate = ref(new Date());
+const disabledDates = availableDates.value ? ref([{repeat: {}},]) : ref(null);
 
 const nextStep = () => {
 	store.commit('SET_DATE', formatDate(date.value, dateOptions));

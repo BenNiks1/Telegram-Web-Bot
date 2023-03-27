@@ -1,120 +1,84 @@
 <template>
-	<div class="row">
-		<form class="form" name="TinkoffPayForm">
-			<input class="form__input" type="hidden" name="terminalkey" :value="terminalkey" />
-			<input class="form__input" type="hidden" name="token" :value="token" />
-			<input class="form__input" type="hidden" name="password" :value="token" />
+	<section class="introduction">
+		<div class="introduction__header">
+			<h1 class="introduction__title">
+				Добро пожаловать во
+				<span class="introduction__title-additional">Fresh Сервис</span>
+			</h1>
+			<p class="introduction__description">
+				Теперь вы можете записаться онлайн на любую услугу, выбрать время и мастера
+				самостоятельно.
+			</p>
+		</div>
 
-			<input class="form__input" type="hidden" name="frame" value="true" />
-			<input class="form__input" type="hidden" name="language" value="ru" />
-			<input
-				v-model="amount"
-				class="form__input"
-				type="text"
-				placeholder="Сумма заказа"
-				name="amount"
-				required
-			/>
-			<input class="form__input" type="text" placeholder="Номер заказа" name="order" />
-			<input
-				class="form__input"
-				type="text"
-				placeholder="Описание заказа"
-				name="description"
-			/>
-			<input class="form__input" type="text" placeholder="ФИО плательщика" name="name" />
-			<input
-				v-model="email"
-				class="form__input"
-				type="text"
-				placeholder="E-mail"
-				name="email"
-				required
-			/>
-			<input
-				v-model="phone"
-				class="form__input"
-				type="text"
-				placeholder="Контактный телефон"
-				name="phone"
-				required
-			/>
-			<input class="tinkoffPayRow" type="hidden" name="receipt" value="" />
-			<input
-				class="form__input"
-				type="submit"
-				value="Оплатить"
-				@click="(e) => tinkoffPayFunction(e)"
-			/>
-		</form>
-	</div>
+		<div class="introduction__button">
+			<UiButton style-type="primary" @click="nextPage">Записаться онлайн</UiButton>
+		</div>
+	</section>
 </template>
 
-<script setup>
-import { onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { UiButton } from '@/components';
+import { routes } from '@/helpers';
 
-const token = ref('i0h9eudl2bamushm');
-const terminalkey = ref('1675421001484DEMO');
-const amount = ref(100);
-const phone = ref('');
-const email = ref('');
-const description = ref('Оплата');
+const router = useRouter();
 
-onMounted(() => {
-	const recaptchaScript = document.createElement('script');
-	recaptchaScript.setAttribute(
-		'src',
-		'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
-	);
-	document.head.appendChild(recaptchaScript);
-});
-
-const tinkoffPayFunction = async (e) => {
-	e.preventDefault();
-
-	const form = e.target.parentElement;
-
-	if (amount.value && email.value.length && phone.value.length) {
-		form.receipt.value = JSON.stringify({
-			Email: email.value,
-			Phone: phone.value,
-			EmailCompany: 'mail@mail.com',
-			Taxation: 'osn',
-			Items: [
-				{
-					Name: description.value,
-					Price: amount.value + '00',
-					Quantity: 1.0,
-					Amount: amount.value + '00',
-					PaymentMethod: 'full_prepayment',
-					PaymentObject: 'service',
-					Tax: 'none',
-				},
-			],
-		});
-		window.pay(form);
-	} else {
-		alert('Не все обязательные поля заполнены');
-	}
-	return false;
-
-	// try {
-	// 	await window.pay(e.target);
-	// } catch (err) {
-	// 	console.error(err);
-	// }
+const nextPage = () => {
+	router.push(routes.dc.path);
 };
 </script>
 
 <style lang="scss" scoped>
-.form {
+.introduction {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	justify-content: center;
+	height: calc(100% - 107px);
 
-	&__input {
-		padding: 10px;
-		border: 1px solid $base-color;
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
+
+	&__title {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		font-size: 24px;
+		line-height: 30px;
+		font-weight: 500;
+
+		&-additional {
+			font-weight: bold;
+		}
+	}
+
+	&__description {
+		text-align: center;
+		color: #2b2b2b;
+	}
+
+	&__button {
+		position: fixed;
+		bottom: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: calc(100vw - 40px);
+		margin-bottom: 25px;
+	}
+
+	@media screen and (max-height: 360px) {
+		&__button {
+			position: static;
+			width: 100%;
+			transform: none;
+		}
 	}
 }
 </style>

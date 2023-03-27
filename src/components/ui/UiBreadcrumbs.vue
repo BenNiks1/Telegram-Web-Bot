@@ -8,7 +8,6 @@
 			<span
 				v-if="key === items.length - 1"
 				class="breadcrumbs__link default"
-				@click="$emit('on-click', item.name)"
 			>
 				{{ item.name }}
 			</span>
@@ -39,8 +38,6 @@ defineProps({
 	},
 });
 
-defineEmits(['on-click']);
-
 onMounted(() => {
 	nav.value.scrollLeft = nav.value.offsetWidth;
 });
@@ -69,7 +66,7 @@ onMounted(() => {
 			display: block;
 			width: 8px;
 			height: 8px;
-			border: solid rgba($base-color, 0.3);
+			border: solid rgba($base-color, .8);
 			border-width: 1px 1px 0 0;
 			transform: translateY(-50%) rotate(45deg);
 		}
@@ -82,11 +79,11 @@ onMounted(() => {
 	}
 
 	&__link {
-		color: rgba($base-color, 0.3);
+		color: rgba($base-color, .8);
 		transition: color $transition-duration;
 
 		&:hover:not(&.default) {
-			color: rgba($base-color, 1);
+			color: $base-color;
 		}
 
 		&.default {

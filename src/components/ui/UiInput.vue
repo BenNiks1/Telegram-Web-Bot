@@ -13,12 +13,19 @@
 						class="input__field"
 						:type="type"
 						:name="name"
+						:min="min"
+						:max="max"
 						:value="modelValue"
 						:placeholder="placeholder"
+						:aria-invalid="isError"
+						aria-describedby="error"
 						@change="$emit('update:modelValue', $event.target.value)"
 					/>
 				</div>
 			</div>
+			<span v-if="isError" id="error" class="input__error" aria-live="assertive">
+				{{ textError }}
+			</span>
 		</div>
 	</div>
 </template>
@@ -33,7 +40,10 @@ export default {
 		placeholder: { type: String, default: null },
 		name: { type: String, default: null },
 		required: { type: Boolean, default: false },
+		min: { type: [String, Number], default: null },
+		max: { type: [String, Number], default: null },
 		isError: { type: Boolean, default: false },
+		textError: { type: String, default: null },
 	},
 };
 </script>
@@ -52,7 +62,7 @@ export default {
 		font-size: 14px;
 		line-height: 16px;
 		font-weight: 700;
-		color: rgba($base-color, 0.5);
+		color: rgba($base-color, 0.8);
 		display: block;
 		margin-bottom: 8px;
 		transition: all $transition-duration;
@@ -68,7 +78,7 @@ export default {
 
 	&__slot {
 		border-radius: 16px;
-		border: 1px solid $color-border;
+		border: 1px solid rgba($base-color, 0.4);
 		transition: border $transition-duration;
 
 		&.error {
@@ -116,6 +126,15 @@ export default {
 		&:disabled {
 			color: $color-text-secondary-contrast;
 		}
+	}
+
+	&__error {
+		position: absolute;
+		bottom: 0;
+		transform: translateY(calc(100% + 2px));
+		color: $red;
+		font-size: 12px;
+		line-height: 14px;
 	}
 }
 </style>

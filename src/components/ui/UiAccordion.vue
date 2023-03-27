@@ -7,7 +7,7 @@
 			</div>
 
 			<div class="ui-accordion__expand">
-				<InlineSvg class="ui-accordion__expand-icon" src="/static/svg/arrow-down.svg" />
+				<InlineSvg class="ui-accordion__expand-icon" src="/static/svg/arrow-down.svg" :aria-label="open ? 'Arrow down' : 'Arrow up'"/>
 			</div>
 		</summary>
 		<div class="ui-accordion__body">
@@ -42,12 +42,12 @@ defineProps({
 	width: 100%;
 	background-color: transparent;
 
-	&__expand {
-		transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+	&__expand-icon {
+		transition: transform 0.2s ease-in-out;
 	}
 
 	&[open] {
-		.ui-details__expand {
+		.ui-accordion__expand-icon {
 			transform: rotate(180deg);
 		}
 	}
@@ -81,7 +81,7 @@ defineProps({
 			&__count {
 				font-size: 16px;
 				font-weight: normal;
-				color: #888a96;
+				color: rgba($base-color, .7);
 				margin-left: 5px;
 			}
 		}
